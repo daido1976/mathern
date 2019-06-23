@@ -43,7 +43,7 @@ export default class App extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user != null) {
-        console.log(user);
+        console.log(user.email, "is signed in");
       }
     });
   }
@@ -57,7 +57,10 @@ export default class App extends React.Component {
         alert("Please enter atleast 6 characters");
         return;
       }
-      firebase.auth().createUserWithEmailAndPassword(email, password);
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(user => console.log(user));
     } catch (error) {
       console.log(error.toString());
     }
@@ -75,9 +78,7 @@ export default class App extends React.Component {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(function(user) {
-          console.log(user);
-        });
+        .then(user => console.log(user));
     } catch (error) {
       console.log(error.toString());
     }
