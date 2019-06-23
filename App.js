@@ -30,64 +30,122 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export default function App() {
-  return (
-    <Container style={styles.container}>
-      <Header>
-        <Body>
-          <Title>MUSICiAN</Title>
-        </Body>
-      </Header>
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center"
-        }}
-      >
-        <Form>
-          <Item floatingLabel>
-            <Label>Email</Label>
-            <Input
-              autoCorrect={false}
-              autoCapitalize="none"
-              // onChangeText={email => this.setState({ email })}
-            />
-          </Item>
+    this.state = {
+      email: "",
+      password: ""
+    };
+  }
 
-          <Item floatingLabel>
-            <Label>Password</Label>
-            <Input
-              secureTextEntry={true}
-              autoCorrect={false}
-              autoCapitalize="none"
-              // onChangeText={password => this.setState({ password })}
-            />
-          </Item>
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user != null) {
+        console.log(user);
+      }
+    });
+  }
 
-          <Button
-            style={{ marginTop: 10 }}
-            full
-            rounded
-            success
-            // onPress={() => this.loginUser(this.state.email, this.state.password)}
-          >
-            <Text style={{ color: "white" }}>Login</Text>
-          </Button>
+  signUpUser = (email, password) => {
+    try {
+      if (this.state.email == "") {
+        alert("Please enter email address");
+        return;
+      } else if (this.state.password.length < 6) {
+        alert("Please enter atleast 6 characters");
+        return;
+      }
+      firebase.auth().createUserWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
 
-          <Button
-            style={{ marginTop: 10 }}
-            full
-            rounded
-            primary
-            // onPress={() => this.signUpUser(this.state.email, this.state.password)}
-          >
-            <Text style={{ color: "white" }}>Sign Up</Text>
-          </Button>
-        </Form>
-      </View>
-    </Container>
-  );
+  loginUser = (email, password) => {
+    try {
+      if (this.state.email == "") {
+        alert("Please enter email address");
+        return;
+      } else if (this.state.password.length < 6) {
+        alert("Please enter atleast 6 characters");
+        return;
+      }
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(function(user) {
+          console.log(user);
+        });
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
+  render() {
+    return (
+      <Container style={styles.container}>
+        <Header>
+          <Body>
+            <Title>MUSICiAN</Title>
+          </Body>
+        </Header>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center"
+          }}
+        >
+          <Form>
+            <Item floatingLabel>
+              <Label>Email</Label>
+              <Input
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={email => this.setState({ email })}
+              />
+            </Item>
+
+            <Item floatingLabel>
+              <Label>Password</Label>
+              <Input
+                secureTextEntry={true}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={password => this.setState({ password })}
+              />
+            </Item>
+
+            <Button
+              style={{ marginTop: 10 }}
+              full
+              rounded
+              success
+              onPress={() =>
+                this.loginUser(this.state.email, this.state.password)
+              }
+            >
+              <Text style={{ color: "white" }}>Login</Text>
+            </Button>
+
+            <Button
+              style={{ marginTop: 10 }}
+              full
+              rounded
+              primary
+              onPress={() =>
+                this.signUpUser(this.state.email, this.state.password)
+              }
+            >
+              <Text style={{ color: "white" }}>Sign Up</Text>
+            </Button>
+          </Form>
+        </View>
+      </Container>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
