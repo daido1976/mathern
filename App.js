@@ -1,16 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
 import {
   Container,
-  Header,
-  Body,
-  Title,
   Form,
   Input,
   Item,
   Button,
-  Label
+  Label,
+  Spinner
 } from "native-base";
+
+import {
+  createSwitchNavigator,
+  createStackNavigator,
+  createAppContainer
+} from "react-navigation";
 
 import firebase from "firebase";
 import {
@@ -31,6 +35,12 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+}
+
+class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -40,13 +50,9 @@ export default class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user != null) {
-        console.log(user.email, "is signed in");
-      }
-    });
-  }
+  static navigationOptions = {
+    title: "Please sign in"
+  };
 
   signUpUser = (email, password) => {
     try {
@@ -61,6 +67,7 @@ export default class App extends React.Component {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(user => console.log(user));
+      this.props.navigation.navigate("App");
     } catch (error) {
       console.log(error.toString());
     }
@@ -79,6 +86,7 @@ export default class App extends React.Component {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(user => console.log(user));
+      this.props.navigation.navigate("App");
     } catch (error) {
       console.log(error.toString());
     }
@@ -87,18 +95,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Header>
-          <Body>
-            <Title>MUSICiAN</Title>
-          </Body>
-        </Header>
-
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center"
-          }}
-        >
+        <View>
           <Form>
             <Item floatingLabel>
               <Label>Email</Label>
@@ -149,8 +146,123 @@ export default class App extends React.Component {
   }
 }
 
+class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: "Welcome to the MUSICiAN!"
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Button
+          style={{ marginTop: 10 }}
+          full
+          rounded
+          info
+          onPress={this._showMoreApp}
+        >
+          <Text style={{ color: "white" }}>Show More</Text>
+        </Button>
+        <Button
+          style={{ marginTop: 10 }}
+          full
+          rounded
+          danger
+          onPress={this._signOutAsync}
+        >
+          <Text style={{ color: "white" }}>Sign Out</Text>
+        </Button>
+      </View>
+    );
+  }
+
+  _showMoreApp = () => {
+    this.props.navigation.navigate("Other");
+  };
+
+  _signOutAsync = async () => {
+    await firebase.auth().signOut();
+    this.props.navigation.navigate("Auth");
+  };
+}
+
+class AuthLoadingScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this._bootstrapAuth();
+  }
+
+  _bootstrapAuth = async () => {
+    await firebase.auth().onAuthStateChanged(user => {
+      if (user != null) {
+        console.log(user.email, "is signed in");
+        this.props.navigation.navigate("App");
+      } else {
+        console.log("No user is signed in");
+        this.props.navigation.navigate("Auth");
+      }
+    });
+  };
+
+  // Render any loading content that you like here
+  render() {
+    return (
+      <View>
+        <Spinner />
+        <StatusBar barStyle="default" />
+      </View>
+    );
+  }
+}
+
+class OtherScreen extends React.Component {
+  static navigationOptions = {
+    title: "Lots of features here"
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Button
+          style={{ marginTop: 10 }}
+          full
+          rounded
+          danger
+          onPress={this._signOutAsync}
+        >
+          <Text style={{ color: "white" }}>Sign Out</Text>
+        </Button>
+        <StatusBar barStyle="default" />
+      </View>
+    );
+  }
+
+  _signOutAsync = async () => {
+    await firebase.auth().signOut();
+    this.props.navigation.navigate("Auth");
+  };
+}
+
+const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
+const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+
+const AppSwitchNavigator = createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack
+  },
+  {
+    initialRouteName: "AuthLoading"
+  }
+);
+
+const AppContainer = createAppContainer(AppSwitchNavigator);
+
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: "center",
     backgroundColor: "#fff"
   }
 });
