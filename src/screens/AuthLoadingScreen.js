@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { View, StatusBar } from "react-native";
 import { Spinner } from "native-base";
