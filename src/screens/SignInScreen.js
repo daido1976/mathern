@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Container, Form, Input, Item, Button, Label } from "native-base";
 import firebase from "firebase";
+import "firebase/firestore";
 
 export default class SignInScreen extends React.Component {
   constructor(props) {
@@ -32,7 +33,15 @@ export default class SignInScreen extends React.Component {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(user => console.log(user));
+        .then(authData => {
+          firebase
+            .firestore()
+            .collection("users")
+            .doc(authData.user.uid)
+            .set({
+              name: "No Name"
+            });
+        });
       this.props.navigation.navigate("App");
     } catch (error) {
       console.log(error.toString());
