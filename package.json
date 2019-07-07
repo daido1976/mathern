@@ -11,9 +11,9 @@
   "dependencies": {
     "expo": "^33.0.0",
     "firebase": "^6.2.2",
-    "metro-react-native-babel-preset": "^0.54.1",
+    "metro-react-native-babel-preset": "^0.55.0",
     "native-base": "^2.12.1",
-    "react": "16.8.3",
+    "react": "16.8.6",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-config": "^0.11.7",
