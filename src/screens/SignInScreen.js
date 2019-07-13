@@ -25,7 +25,7 @@ export default class SignInScreen extends React.Component {
         alert("Please enter email address");
         return;
       } else if (this.state.password.length < 6) {
-        alert("Please enter atleast 6 characters");
+        alert("Please enter password at least 6 characters");
         return;
       }
       firebase
@@ -41,7 +41,8 @@ export default class SignInScreen extends React.Component {
               name: "No Name"
             });
         })
-        .then(() => this.props.navigation.navigate("App"));
+        .then(() => this.props.navigation.navigate("App"))
+        .catch(error => alert(error.message));
     } catch (error) {
       console.log(error.toString());
     }
@@ -53,14 +54,15 @@ export default class SignInScreen extends React.Component {
         alert("Please enter email address");
         return;
       } else if (this.state.password.length < 6) {
-        alert("Please enter atleast 6 characters");
+        alert("Please enter password at least 6 characters");
         return;
       }
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(user => console.log(user))
-        .then(() => this.props.navigation.navigate("App"));
+        .then(() => this.props.navigation.navigate("App"))
+        .catch(error => alert(error.message));
     } catch (error) {
       console.log(error.toString());
     }
