@@ -33,16 +33,17 @@ export default class SignInScreen extends React.Component {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(authData => {
+        .then(authData => authData.user.uid)
+        .then(id => {
           firebase
             .firestore()
             .collection("users")
-            .doc(authData.user.uid)
+            .doc(id)
             .set({
               name: "No Name"
             });
-        });
-      this.props.navigation.navigate("App");
+        })
+        .then(() => this.props.navigation.navigate("App"));
     } catch (error) {
       console.log(error.toString());
     }
@@ -62,8 +63,8 @@ export default class SignInScreen extends React.Component {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(user => console.log(user));
-      this.props.navigation.navigate("App");
+        .then(user => console.log(user))
+        .then(() => this.props.navigation.navigate("App"));
     } catch (error) {
       console.log(error.toString());
     }
