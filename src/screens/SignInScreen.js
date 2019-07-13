@@ -22,11 +22,9 @@ export default class SignInScreen extends React.Component {
   signUpUser = (email, password) => {
     try {
       if (this.state.email == "") {
-        // eslint-disable-next-line no-undef
         alert("Please enter email address");
         return;
       } else if (this.state.password.length < 6) {
-        // eslint-disable-next-line no-undef
         alert("Please enter atleast 6 characters");
         return;
       }
@@ -52,11 +50,9 @@ export default class SignInScreen extends React.Component {
   loginUser = (email, password) => {
     try {
       if (this.state.email == "") {
-        // eslint-disable-next-line no-undef
         alert("Please enter email address");
         return;
       } else if (this.state.password.length < 6) {
-        // eslint-disable-next-line no-undef
         alert("Please enter atleast 6 characters");
         return;
       }
