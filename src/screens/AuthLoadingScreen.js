@@ -14,7 +14,7 @@ export default class AuthLoadingScreen extends React.Component {
     await firebase.auth().onAuthStateChanged(user => {
       if (user != null) {
         console.log(user.email, "is signed in");
-        this.props.navigation.navigate("App");
+        this.props.navigation.navigate("Home");
       } else {
         console.log("No user is signed in");
         this.props.navigation.navigate("Auth");

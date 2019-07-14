@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Container, Form, Input, Item, Button, Label } from "native-base";
 import firebase from "firebase";
+import "firebase/firestore";
 
 export default class SignInScreen extends React.Component {
   constructor(props) {
@@ -21,19 +22,27 @@ export default class SignInScreen extends React.Component {
   signUpUser = (email, password) => {
     try {
       if (this.state.email == "") {
-        // eslint-disable-next-line no-undef
         alert("Please enter email address");
         return;
       } else if (this.state.password.length < 6) {
-        // eslint-disable-next-line no-undef
-        alert("Please enter atleast 6 characters");
+        alert("Please enter password at least 6 characters");
         return;
       }
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(user => console.log(user));
-      this.props.navigation.navigate("App");
+        .then(authData => authData.user.uid)
+        .then(id => {
+          firebase
+            .firestore()
+            .collection("users")
+            .doc(id)
+            .set({
+              name: "No Name"
+            });
+        })
+        .then(() => this.props.navigation.navigate("Home"))
+        .catch(error => alert(error.message));
     } catch (error) {
       console.log(error.toString());
     }
@@ -42,19 +51,18 @@ export default class SignInScreen extends React.Component {
   loginUser = (email, password) => {
     try {
       if (this.state.email == "") {
-        // eslint-disable-next-line no-undef
         alert("Please enter email address");
         return;
       } else if (this.state.password.length < 6) {
-        // eslint-disable-next-line no-undef
-        alert("Please enter atleast 6 characters");
+        alert("Please enter password at least 6 characters");
         return;
       }
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(user => console.log(user));
-      this.props.navigation.navigate("App");
+        .then(user => console.log(user))
+        .then(() => this.props.navigation.navigate("Home"))
+        .catch(error => alert(error.message));
     } catch (error) {
       console.log(error.toString());
     }

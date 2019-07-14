@@ -1,21 +1,47 @@
 import {
   createSwitchNavigator,
   createStackNavigator,
-  createAppContainer
+  createAppContainer,
+  createBottomTabNavigator
 } from "react-navigation";
 
 import SignInScreen from "../screens/SignInScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
-import OtherScreen from "../screens/OtherScreen";
-import HomeScreen from "../screens/HomeScreen";
+import ProfileStack from "../screens/ProfileStack";
+import DiscoverScreen from "../screens/DiscoverScreen";
+import MessageScreen from "../screens/MessageScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
 
-const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
+const TabNavigator = createBottomTabNavigator(
+  {
+    Profile: ProfileStack,
+    Discover: DiscoverScreen,
+    Message: MessageScreen
+  },
+  {
+    initialRouteName: "Discover"
+  }
+);
+
+const HomeStack = createStackNavigator({
+  Tabs: {
+    screen: TabNavigator,
+    navigationOptions: ({ navigation }) => {
+      const { routeName } = navigation.state.routes[navigation.state.index];
+      return {
+        headerTitle: routeName
+      };
+    }
+  },
+  EditProfile: EditProfileScreen
+});
+
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    App: AppStack,
+    Home: HomeStack,
     Auth: AuthStack
   },
   {
