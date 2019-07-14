@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { View, StatusBar } from "react-native";
+import { View } from "react-native";
 import { Spinner } from "native-base";
 import firebase from "firebase";
 
@@ -25,9 +25,8 @@ export default class AuthLoadingScreen extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-      <View>
-        <Spinner />
-        <StatusBar barStyle="default" />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Spinner color="gray" />
       </View>
     );
   }
