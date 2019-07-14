@@ -10,18 +10,25 @@ import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import ProfileStack from "../screens/ProfileStack";
 import DiscoverScreen from "../screens/DiscoverScreen";
 import MessageScreen from "../screens/MessageScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
 
-const HomeTab = createBottomTabNavigator({
-  Profile: { screen: ProfileStack },
+const TabNavigator = createBottomTabNavigator({
+  Profile: ProfileStack,
   Discover: DiscoverScreen,
   Message: MessageScreen
 });
+
+const HomeStack = createStackNavigator({
+  Tabs: { screen: TabNavigator, navigationOptions: { header: null } },
+  EditProfile: EditProfileScreen
+});
+
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    Home: HomeTab,
+    Home: HomeStack,
     Auth: AuthStack
   },
   {
