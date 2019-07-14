@@ -1,21 +1,27 @@
 import {
   createSwitchNavigator,
   createStackNavigator,
-  createAppContainer
+  createAppContainer,
+  createBottomTabNavigator
 } from "react-navigation";
 
 import SignInScreen from "../screens/SignInScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
-import OtherScreen from "../screens/OtherScreen";
-import HomeScreen from "../screens/HomeScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import DiscoverScreen from "../screens/DiscoverScreen";
+import MessageScreen from "../screens/MessageScreen";
 
-const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
+const HomeTab = createBottomTabNavigator({
+  Profile: ProfileScreen,
+  Discover: DiscoverScreen,
+  Message: MessageScreen
+});
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    App: AppStack,
+    Home: HomeTab,
     Auth: AuthStack
   },
   {

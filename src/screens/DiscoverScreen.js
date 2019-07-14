@@ -1,17 +1,13 @@
-/* eslint-disable react/prop-types */
 import React from "react";
-import { StyleSheet, Text, View, StatusBar } from "react-native";
+import { View, Text } from "react-native";
 import { Button } from "native-base";
 import firebase from "firebase";
 
-export default class OtherScreen extends React.Component {
-  static navigationOptions = {
-    title: "Lots of features here"
-  };
-
+export default class DiscoverScreen extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text>Discover</Text>
         <Button
           style={{ marginTop: 10 }}
           full
@@ -21,7 +17,6 @@ export default class OtherScreen extends React.Component {
         >
           <Text style={{ color: "white" }}>Sign Out</Text>
         </Button>
-        <StatusBar barStyle="default" />
       </View>
     );
   }
@@ -31,11 +26,3 @@ export default class OtherScreen extends React.Component {
     this.props.navigation.navigate("Auth");
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#fff"
-  }
-});

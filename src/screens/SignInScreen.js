@@ -41,7 +41,7 @@ export default class SignInScreen extends React.Component {
               name: "No Name"
             });
         })
-        .then(() => this.props.navigation.navigate("App"))
+        .then(() => this.props.navigation.navigate("Home"))
         .catch(error => alert(error.message));
     } catch (error) {
       console.log(error.toString());
@@ -61,7 +61,7 @@ export default class SignInScreen extends React.Component {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(user => console.log(user))
-        .then(() => this.props.navigation.navigate("App"))
+        .then(() => this.props.navigation.navigate("Home"))
         .catch(error => alert(error.message));
     } catch (error) {
       console.log(error.toString());
