@@ -7,12 +7,12 @@ import {
 
 import SignInScreen from "../screens/SignInScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import ProfileStack from "../screens/ProfileStack";
 import DiscoverScreen from "../screens/DiscoverScreen";
 import MessageScreen from "../screens/MessageScreen";
 
 const HomeTab = createBottomTabNavigator({
-  Profile: ProfileScreen,
+  Profile: { screen: ProfileStack },
   Discover: DiscoverScreen,
   Message: MessageScreen
 });
