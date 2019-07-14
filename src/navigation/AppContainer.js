@@ -12,11 +12,16 @@ import DiscoverScreen from "../screens/DiscoverScreen";
 import MessageScreen from "../screens/MessageScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 
-const TabNavigator = createBottomTabNavigator({
-  Profile: ProfileStack,
-  Discover: DiscoverScreen,
-  Message: MessageScreen
-});
+const TabNavigator = createBottomTabNavigator(
+  {
+    Profile: ProfileStack,
+    Discover: DiscoverScreen,
+    Message: MessageScreen
+  },
+  {
+    initialRouteName: "Discover"
+  }
+);
 
 const HomeStack = createStackNavigator({
   Tabs: {
