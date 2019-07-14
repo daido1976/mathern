@@ -19,7 +19,15 @@ const TabNavigator = createBottomTabNavigator({
 });
 
 const HomeStack = createStackNavigator({
-  Tabs: { screen: TabNavigator, navigationOptions: { header: null } },
+  Tabs: {
+    screen: TabNavigator,
+    navigationOptions: ({ navigation }) => {
+      const { routeName } = navigation.state.routes[navigation.state.index];
+      return {
+        headerTitle: routeName
+      };
+    }
+  },
   EditProfile: EditProfileScreen
 });
 

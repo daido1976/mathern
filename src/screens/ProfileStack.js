@@ -3,9 +3,6 @@ import { View, Text, Button } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
 class ProfileScreen extends React.Component {
-  static navigationOptions = {
-    title: "Home"
-  };
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -19,6 +16,11 @@ class ProfileScreen extends React.Component {
   }
 }
 
-export default createStackNavigator({
-  ProfileHome: ProfileScreen
-});
+export default createStackNavigator(
+  {
+    ProfileHome: ProfileScreen
+  },
+  {
+    headerMode: "none"
+  }
+);
