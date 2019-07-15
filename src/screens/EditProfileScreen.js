@@ -13,8 +13,7 @@ export default class EditProfileScreen extends React.Component {
     super(props);
     this.state = {
       userId: null,
-      avatar: null,
-      uploading: false
+      avatar: null
     };
     this._getCurrentUser();
   }
@@ -80,6 +79,22 @@ export default class EditProfileScreen extends React.Component {
     return await snapshot.ref.getDownloadURL();
   };
 
+  updateAvatar = async () => {
+    try {
+      const downloadUrl = await this.uploadAvatar(this.state.avatar);
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(this.state.userId)
+        .update({
+          avatarUrl: downloadUrl
+        })
+        .catch(error => alert(error.message));
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -98,7 +113,7 @@ export default class EditProfileScreen extends React.Component {
           full
           rounded
           warning
-          onPress={() => this.uploadAvatar(this.state.avatar)}
+          onPress={this.updateAvatar}
         >
           <Text style={{ color: "white" }}>upload</Text>
         </Button>
