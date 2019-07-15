@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Button } from "native-base";
+// https://kmagiera.github.io/react-native-gesture-handler/docs/component-touchables.html
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Button, Thumbnail } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase";
@@ -68,15 +70,16 @@ export default class EditProfileScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Button
-          style={{ marginTop: 10 }}
-          full
-          rounded
-          success
-          onPress={this.pickImage}
-        >
-          <Text style={{ color: "white" }}>Select Image</Text>
-        </Button>
+        <TouchableOpacity onPress={this.pickImage}>
+          <Thumbnail
+            large
+            source={{
+              uri: this.state.avatar
+                ? this.state.avatar
+                : "https://facebook.github.io/react-native/docs/assets/favicon.png"
+            }}
+          />
+        </TouchableOpacity>
         <Button
           style={{ marginTop: 10 }}
           full
