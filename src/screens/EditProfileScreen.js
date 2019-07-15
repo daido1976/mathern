@@ -6,6 +6,7 @@ import { Button, Thumbnail } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase";
+import "firebase/firestore";
 import "firebase/storage";
 
 export default class EditProfileScreen extends React.Component {
@@ -24,11 +25,19 @@ export default class EditProfileScreen extends React.Component {
         this.setState({ userId: user.uid });
       }
     });
-    const pathReference = await firebase
-      .storage()
-      .ref(`Users/${this.state.userId}/Avatars/main.png`);
-    const uri = await pathReference.getDownloadURL();
-    this.setState({ avatar: uri });
+    const doc = await firebase
+      .firestore()
+      .collection("users")
+      .doc(this.state.userId)
+      .get();
+
+    if (doc.exists) {
+      console.log("Document data:", doc.data());
+      const { avatarUrl } = doc.data();
+      this.setState({ avatar: avatarUrl });
+    } else {
+      console.log("No such document!");
+    }
   };
 
   // permission を確認して "grented" でなければ、 permission を得てから image pick を始める
@@ -49,6 +58,7 @@ export default class EditProfileScreen extends React.Component {
       if (!result.cancelled) {
         this.setState({ avatar: result.uri });
         console.log(result.uri);
+        this.updateAvatar();
       }
     }
   };
@@ -90,6 +100,7 @@ export default class EditProfileScreen extends React.Component {
           avatarUrl: downloadUrl
         })
         .catch(error => alert(error.message));
+      console.log("更新に成功しました！");
     } catch (error) {
       console.log(error.toString());
     }
@@ -108,15 +119,6 @@ export default class EditProfileScreen extends React.Component {
             }}
           />
         </TouchableOpacity>
-        <Button
-          style={{ marginTop: 10 }}
-          full
-          rounded
-          warning
-          onPress={this.updateAvatar}
-        >
-          <Text style={{ color: "white" }}>upload</Text>
-        </Button>
       </View>
     );
   }
