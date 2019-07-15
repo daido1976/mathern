@@ -16,22 +16,19 @@ export default class EditProfileScreen extends React.Component {
     };
   }
 
+  // permission を確認して "grented" でなければ、 permission を得てから image pick を始める
   pickImage = async () => {
-    let isAccepted = true;
+    // https://docs.expo.io/versions/v33.0.0/sdk/permissions/
+    let { status } = await Permissions.getAsync(Permissions.CAMERA_ROLL);
 
-    const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    if (status !== "granted")
+      ({ status } = await Permissions.askAsync(Permissions.CAMERA_ROLL));
 
-    if (permission.status !== "granted") {
-      const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (newPermission.status !== "granted") {
-        isAccepted = false;
-      }
-    }
-
-    if (isAccepted) {
-      let result = await ImagePicker.launchImageLibraryAsync({
+    if (status === "granted") {
+      // https://docs.expo.io/versions/latest/sdk/imagepicker/#imagepickerlaunchimagelibraryasyncoptions
+      const result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
-        aspect: [9, 9]
+        aspect: [4, 3]
       });
 
       if (!result.cancelled) {
