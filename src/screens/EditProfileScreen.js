@@ -12,11 +12,22 @@ export default class EditProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: null,
+      userId: null,
       avatar: null,
       uploading: false
     };
+    this._getCurrentUserId();
   }
+
+  _getCurrentUserId = async () => {
+    await firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ userId: user.uid });
+      } else {
+        console.log("No user is signed in");
+      }
+    });
+  };
 
   // permission を確認して "grented" でなければ、 permission を得てから image pick を始める
   pickImage = async () => {
@@ -42,9 +53,8 @@ export default class EditProfileScreen extends React.Component {
 
   uploadAvatar = async uri => {
     const storageRef = firebase.storage().ref();
-    const userRef = storageRef.child("User");
-    const uid = "hogehoge";
-    const avatarRef = userRef.child(`${uid}/Avatar/main.png`);
+    const userRef = storageRef.child("Users");
+    const avatarRef = userRef.child(`${this.state.userId}/Avatars/main.png`);
 
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
