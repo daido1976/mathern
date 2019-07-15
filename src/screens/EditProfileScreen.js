@@ -16,17 +16,20 @@ export default class EditProfileScreen extends React.Component {
       avatar: null,
       uploading: false
     };
-    this._getCurrentUserId();
+    this._getCurrentUser();
   }
 
-  _getCurrentUserId = async () => {
+  _getCurrentUser = async () => {
     await firebase.auth().onAuthStateChanged(user => {
-      if (user) {
+      {
         this.setState({ userId: user.uid });
-      } else {
-        console.log("No user is signed in");
       }
     });
+    const pathReference = await firebase
+      .storage()
+      .ref(`Users/${this.state.userId}/Avatars/main.png`);
+    const uri = await pathReference.getDownloadURL();
+    this.setState({ avatar: uri });
   };
 
   // permission を確認して "grented" でなければ、 permission を得てから image pick を始める
