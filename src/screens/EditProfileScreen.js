@@ -147,9 +147,9 @@ export default class EditProfileScreen extends React.Component {
             <TouchableOpacity onPress={this.pickImage}>
               <Thumbnail
                 style={{
-                  height: 300,
-                  width: 300,
-                  borderRadius: 150
+                  height: 180,
+                  width: 180,
+                  borderRadius: 90
                 }}
                 source={{
                   uri: this.state.avatar
@@ -160,7 +160,11 @@ export default class EditProfileScreen extends React.Component {
             </TouchableOpacity>
           </Content>
         </Container>
-        <Container>
+        <Container
+          style={{
+            flex: 3
+          }}
+        >
           <Content>
             <Separator bordered>
               <Text>基本情報</Text>
