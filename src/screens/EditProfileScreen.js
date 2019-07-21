@@ -6,9 +6,11 @@ import {
   Container,
   Content,
   List,
+  Item,
   ListItem,
   Left,
   Right,
+  Label,
   Text,
   Icon,
   Separator,
@@ -170,35 +172,43 @@ export default class EditProfileScreen extends React.Component {
               <Text>基本情報</Text>
             </Separator>
             <Form>
-              <Picker
-                mode="dropdown"
-                placeholder="パートを選んでください"
-                iosIcon={<Icon name="arrow-down" />}
-                style={{ width: 120 }}
-                selectedValue={this.state.partSelected}
-                onValueChange={this.onPartValueChange}
-              >
-                <Picker.Item label="ギター" value="key0" />
-                <Picker.Item label="ベース" value="key1" />
-                <Picker.Item label="ドラム" value="key2" />
-                <Picker.Item label="ボーカル" value="key3" />
-                <Picker.Item label="キーボード" value="key4" />
-              </Picker>
-            </Form>
-            <Form>
-              <Picker
-                mode="dropdown"
-                placeholder="住所を選んでください"
-                iosIcon={<Icon name="arrow-down" />}
-                style={{ width: 120 }}
-                selectedValue={this.state.addressSelected}
-                onValueChange={this.onAddressValueChange}
-              >
-                <Picker.Item label="東京" value="key0" />
-                <Picker.Item label="千葉" value="key1" />
-                <Picker.Item label="神奈川" value="key2" />
-                <Picker.Item label="埼玉" value="key3" />
-              </Picker>
+              <Label style={{ marginTop: 10, marginLeft: 10, fontSize: 11 }}>
+                パート
+              </Label>
+              <Item picker>
+                <Picker
+                  mode="dropdown"
+                  iosIcon={<Icon name="ios-arrow-down" />}
+                  style={{ width: 120 }}
+                  placeholder="未選択"
+                  selectedValue={this.state.partSelected}
+                  onValueChange={this.onPartValueChange}
+                >
+                  <Picker.Item label="ギター" value="key0" />
+                  <Picker.Item label="ベース" value="key1" />
+                  <Picker.Item label="ドラム" value="key2" />
+                  <Picker.Item label="ボーカル" value="key3" />
+                  <Picker.Item label="キーボード" value="key4" />
+                </Picker>
+              </Item>
+              <Label style={{ marginTop: 10, marginLeft: 10, fontSize: 11 }}>
+                住所
+              </Label>
+              <Item picker>
+                <Picker
+                  mode="dropdown"
+                  placeholder="未選択"
+                  iosIcon={<Icon name="arrow-down" />}
+                  style={{ width: 120 }}
+                  selectedValue={this.state.addressSelected}
+                  onValueChange={this.onAddressValueChange}
+                >
+                  <Picker.Item label="東京" value="key0" />
+                  <Picker.Item label="千葉" value="key1" />
+                  <Picker.Item label="神奈川" value="key2" />
+                  <Picker.Item label="埼玉" value="key3" />
+                </Picker>
+              </Item>
             </Form>
           </Content>
         </Container>
