@@ -1,8 +1,20 @@
 import React from "react";
-import { View, Text } from "react-native";
 // https://kmagiera.github.io/react-native-gesture-handler/docs/component-touchables.html
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Button, Thumbnail } from "native-base";
+import {
+  Thumbnail,
+  Container,
+  Content,
+  List,
+  ListItem,
+  Left,
+  Right,
+  Text,
+  Icon,
+  Separator,
+  Form,
+  Picker
+} from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase";
@@ -14,7 +26,9 @@ export default class EditProfileScreen extends React.Component {
     super(props);
     this.state = {
       userId: null,
-      avatar: null
+      avatar: null,
+      partSelected: undefined,
+      addressSelected: undefined
     };
     this._getCurrentUser();
   }
@@ -106,20 +120,85 @@ export default class EditProfileScreen extends React.Component {
     }
   };
 
+  onAddressValueChange = value => {
+    this.setState({
+      addressSelected: value
+    });
+  };
+
+  onPartValueChange = value => {
+    this.setState({
+      partSelected: value
+    });
+  };
+
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <TouchableOpacity onPress={this.pickImage}>
-          <Thumbnail
-            large
-            source={{
-              uri: this.state.avatar
-                ? this.state.avatar
-                : "https://facebook.github.io/react-native/docs/assets/favicon.png"
-            }}
-          />
-        </TouchableOpacity>
-      </View>
+      <Container>
+        <Container
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 10
+          }}
+        >
+          <Content>
+            <TouchableOpacity onPress={this.pickImage}>
+              <Thumbnail
+                style={{
+                  height: 300,
+                  width: 300,
+                  borderRadius: 150
+                }}
+                source={{
+                  uri: this.state.avatar
+                    ? this.state.avatar
+                    : "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                }}
+              />
+            </TouchableOpacity>
+          </Content>
+        </Container>
+        <Container>
+          <Content>
+            <Separator bordered>
+              <Text>基本情報</Text>
+            </Separator>
+            <Form>
+              <Picker
+                mode="dropdown"
+                placeholder="パートを選んでください"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: 120 }}
+                selectedValue={this.state.partSelected}
+                onValueChange={this.onPartValueChange}
+              >
+                <Picker.Item label="ギター" value="key0" />
+                <Picker.Item label="ベース" value="key1" />
+                <Picker.Item label="ドラム" value="key2" />
+                <Picker.Item label="ボーカル" value="key3" />
+                <Picker.Item label="キーボード" value="key4" />
+              </Picker>
+            </Form>
+            <Form>
+              <Picker
+                mode="dropdown"
+                placeholder="住所を選んでください"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: 120 }}
+                selectedValue={this.state.addressSelected}
+                onValueChange={this.onAddressValueChange}
+              >
+                <Picker.Item label="東京" value="key0" />
+                <Picker.Item label="千葉" value="key1" />
+                <Picker.Item label="神奈川" value="key2" />
+                <Picker.Item label="埼玉" value="key3" />
+              </Picker>
+            </Form>
+          </Content>
+        </Container>
+      </Container>
     );
   }
 }
