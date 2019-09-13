@@ -1,22 +1,8 @@
 import React from "react";
 // https://kmagiera.github.io/react-native-gesture-handler/docs/component-touchables.html
 import { TouchableOpacity } from "react-native-gesture-handler";
-import {
-  Thumbnail,
-  Container,
-  Content,
-  List,
-  Item,
-  ListItem,
-  Left,
-  Right,
-  Label,
-  Text,
-  Icon,
-  Separator,
-  Form,
-  Picker
-} from "native-base";
+import { View, Text, Picker, ScrollView } from "react-native";
+import { Avatar, Icon } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase";
@@ -136,23 +122,20 @@ export default class EditProfileScreen extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Container
-          style={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: 10
-          }}
-        >
-          <Content>
+      <View>
+        <ScrollView>
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 10
+            }}
+          >
             <TouchableOpacity onPress={this.pickImage}>
-              <Thumbnail
-                style={{
-                  height: 180,
-                  width: 180,
-                  borderRadius: 90
-                }}
+              <Avatar
+                rounded
+                size="xlarge"
+                showEditButton
                 source={{
                   uri: this.state.avatar
                     ? this.state.avatar
@@ -160,59 +143,9 @@ export default class EditProfileScreen extends React.Component {
                 }}
               />
             </TouchableOpacity>
-          </Content>
-        </Container>
-        <Container
-          style={{
-            flex: 3
-          }}
-        >
-          <Content>
-            <Separator bordered>
-              <Text>基本情報</Text>
-            </Separator>
-            <Form>
-              <Label style={{ marginTop: 10, marginLeft: 10, fontSize: 11 }}>
-                パート
-              </Label>
-              <Item picker>
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon name="ios-arrow-down" />}
-                  style={{ width: 120 }}
-                  placeholder="未選択"
-                  selectedValue={this.state.partSelected}
-                  onValueChange={this.onPartValueChange}
-                >
-                  <Picker.Item label="ギター" value="key0" />
-                  <Picker.Item label="ベース" value="key1" />
-                  <Picker.Item label="ドラム" value="key2" />
-                  <Picker.Item label="ボーカル" value="key3" />
-                  <Picker.Item label="キーボード" value="key4" />
-                </Picker>
-              </Item>
-              <Label style={{ marginTop: 10, marginLeft: 10, fontSize: 11 }}>
-                住所
-              </Label>
-              <Item picker>
-                <Picker
-                  mode="dropdown"
-                  placeholder="未選択"
-                  iosIcon={<Icon name="arrow-down" />}
-                  style={{ width: 120 }}
-                  selectedValue={this.state.addressSelected}
-                  onValueChange={this.onAddressValueChange}
-                >
-                  <Picker.Item label="東京" value="key0" />
-                  <Picker.Item label="千葉" value="key1" />
-                  <Picker.Item label="神奈川" value="key2" />
-                  <Picker.Item label="埼玉" value="key3" />
-                </Picker>
-              </Item>
-            </Form>
-          </Content>
-        </Container>
-      </Container>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
