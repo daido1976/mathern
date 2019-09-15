@@ -1,20 +1,44 @@
 import React from "react";
-import { View, Text } from "react-native";
 // https://kmagiera.github.io/react-native-gesture-handler/docs/component-touchables.html
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Button, Thumbnail } from "native-base";
+import { View, ScrollView, Text } from "react-native";
+import { Avatar, ListItem } from "react-native-elements";
+import { SelectPickerListItem } from "../lib/react-natve-elements-extends/SelectPickerListItem";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/storage";
 
+const list = [
+  {
+    title: "住所",
+    itemList: [
+      { label: "東京", value: "tokyo" },
+      { label: "埼玉", value: "saitama" },
+      { label: "千葉", value: "chiba" },
+      { label: "神奈川", value: "kanagawa" }
+    ]
+  },
+  {
+    title: "得意な言語",
+    itemList: [
+      { label: "JavaScript", value: "js" },
+      { label: "Ruby", value: "ruby" },
+      { label: "PHP", value: "php" },
+      { label: "Go", value: "go" }
+    ]
+  }
+];
+
 export default class EditProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: null,
-      avatar: null
+      avatar: null,
+      partSelected: undefined,
+      addressSelected: undefined
     };
     this._getCurrentUser();
   }
@@ -106,19 +130,62 @@ export default class EditProfileScreen extends React.Component {
     }
   };
 
+  onAddressValueChange = value => {
+    this.setState({
+      addressSelected: value
+    });
+  };
+
+  onPartValueChange = value => {
+    this.setState({
+      partSelected: value
+    });
+  };
+
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <TouchableOpacity onPress={this.pickImage}>
-          <Thumbnail
-            large
-            source={{
-              uri: this.state.avatar
-                ? this.state.avatar
-                : "https://facebook.github.io/react-native/docs/assets/favicon.png"
+      <View>
+        <ScrollView>
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 10
             }}
-          />
-        </TouchableOpacity>
+          >
+            <TouchableOpacity onPress={this.pickImage}>
+              <Avatar
+                rounded
+                size="xlarge"
+                showEditButton
+                source={{
+                  uri: this.state.avatar
+                    ? this.state.avatar
+                    : "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ marginTop: 25, backgroundColor: "#C7C7CD" }}>
+            <Text style={{ marginVertical: 10 }}>プロフィール</Text>
+          </View>
+          <View>
+            <ListItem
+              title={"名前"}
+              rightTitle={"daido1976"}
+              bottomDivider
+              chevron
+            ></ListItem>
+            {list.map((item, i) => (
+              <SelectPickerListItem
+                key={i}
+                title={item.title}
+                itemList={item.itemList}
+              />
+            ))}
+          </View>
+        </ScrollView>
       </View>
     );
   }

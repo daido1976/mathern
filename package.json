@@ -21,6 +21,7 @@
     "react-native-config": "^0.11.7",
     "react-native-dotenv": "^0.2.0",
     "react-native-elements": "^1.1.0",
+    "react-native-picker-select": "^6.3.3",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.1"
   },
