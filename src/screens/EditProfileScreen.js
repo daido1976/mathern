@@ -2,7 +2,7 @@ import React from "react";
 // https://kmagiera.github.io/react-native-gesture-handler/docs/component-touchables.html
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { View, ScrollView, Text } from "react-native";
-import { Avatar } from "react-native-elements";
+import { Avatar, ListItem } from "react-native-elements";
 import { SelectPickerListItem } from "../lib/react-natve-elements-extends/SelectPickerListItem";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
@@ -171,6 +171,12 @@ export default class EditProfileScreen extends React.Component {
             <Text style={{ marginVertical: 10 }}>プロフィール</Text>
           </View>
           <View>
+            <ListItem
+              title={"名前"}
+              rightTitle={"daido1976"}
+              bottomDivider
+              chevron
+            ></ListItem>
             {list.map((item, i) => (
               <SelectPickerListItem
                 key={i}
