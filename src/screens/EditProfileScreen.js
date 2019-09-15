@@ -1,13 +1,35 @@
 import React from "react";
 // https://kmagiera.github.io/react-native-gesture-handler/docs/component-touchables.html
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { View, Text, Picker, ScrollView } from "react-native";
-import { Avatar, Icon } from "react-native-elements";
+import { View, ScrollView, Text } from "react-native";
+import { Avatar } from "react-native-elements";
+import { SelectPickerListItem } from "../lib/react-natve-elements-extends/SelectPickerListItem";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/storage";
+
+const list = [
+  {
+    title: "住所",
+    itemList: [
+      { label: "東京", value: "tokyo" },
+      { label: "埼玉", value: "saitama" },
+      { label: "千葉", value: "chiba" },
+      { label: "神奈川", value: "kanagawa" }
+    ]
+  },
+  {
+    title: "得意な言語",
+    itemList: [
+      { label: "JavaScript", value: "js" },
+      { label: "Ruby", value: "ruby" },
+      { label: "PHP", value: "php" },
+      { label: "Go", value: "go" }
+    ]
+  }
+];
 
 export default class EditProfileScreen extends React.Component {
   constructor(props) {
@@ -143,6 +165,19 @@ export default class EditProfileScreen extends React.Component {
                 }}
               />
             </TouchableOpacity>
+          </View>
+
+          <View style={{ marginTop: 25, backgroundColor: "#C7C7CD" }}>
+            <Text style={{ marginVertical: 10 }}>プロフィール</Text>
+          </View>
+          <View>
+            {list.map((item, i) => (
+              <SelectPickerListItem
+                key={i}
+                title={item.title}
+                itemList={item.itemList}
+              />
+            ))}
           </View>
         </ScrollView>
       </View>

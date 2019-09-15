@@ -11,40 +11,13 @@ import {
 } from "react-native";
 import { ListItem } from "react-native-elements";
 
-export const SelectPickerListItem = (
-  placeholder = "未選択",
-  value = "hoge"
-) => {
-  const getSelectedItem = ({ items, value }) => {
-    let idx = items.findIndex(item => {
-      return item.value === value;
-    });
-    if (idx === -1) {
-      idx = 0;
-    }
-    return {
-      selectedItem: items[idx] || {},
-      idx
-    };
-  };
+export const SelectPickerListItem = ({ title, itemList }) => {
+  const propsItems = itemList;
 
-  const propsItems = [
-    { label: "Football", value: "football" },
-    { label: "Baseball", value: "baseball" },
-    { label: "Hockey", value: "hockey" }
-  ];
-
-  const items = [{ label: "選択しない", value: placeholder }].concat(
-    propsItems
-  );
+  const items = [{ label: "選択しない", value: "未選択" }].concat(propsItems);
 
   const [showPicker, setShowPicker] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(
-    getSelectedItem({
-      items,
-      value
-    })
-  );
+  const [selectedItem, setSelectedItem] = useState(items[0]);
 
   const togglePicker = () => {
     if (showPicker) {
@@ -95,7 +68,7 @@ export const SelectPickerListItem = (
   return (
     <View style={[defaultStyles.viewContainer]}>
       <ListItem
-        title={"title"}
+        title={title}
         rightTitle={selectedItem.label || "未選択"}
         onPress={() => {
           togglePicker(true);
