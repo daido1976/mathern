@@ -5502,6 +5502,13 @@ react-native-web@^0.11.4:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
+react-navigation-stack@^1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/react-navigation-stack/-/react-navigation-stack-1.7.3.tgz#2dce28bdc80bbd2bf09755a6aa7200055a907504"
+  integrity sha512-wOt7T5NkIFInnFw+cxkUHUbNrXbPqascScia6azMWSdHhx+gvz3uW4Ubyw+2NULHcoshU53boUuQ8lUmUrJdhg==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-navigation@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-4.0.5.tgz#d4e16d9884cfd6bb2cda4d16e001227e2c859b46"
