@@ -1,10 +1,6 @@
-import {
-  createSwitchNavigator,
-  createAppContainer,
-  createBottomTabNavigator
-} from "react-navigation";
+import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-
+import { createBottomTabNavigator } from "react-navigation-tabs";
 import SignInScreen from "../screens/SignInScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import ProfileStack from "../screens/ProfileStack";
