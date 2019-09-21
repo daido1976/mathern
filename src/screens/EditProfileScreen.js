@@ -171,12 +171,16 @@ export default class EditProfileScreen extends React.Component {
             <Text style={{ marginVertical: 10 }}>プロフィール</Text>
           </View>
           <View>
-            <ListItem
-              title={"名前"}
-              rightTitle={"daido1976"}
-              bottomDivider
-              chevron
-            ></ListItem>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("EditName")}
+            >
+              <ListItem
+                title={"名前"}
+                rightTitle={"daido1976"}
+                bottomDivider
+                chevron
+              ></ListItem>
+            </TouchableOpacity>
             {list.map((item, i) => (
               <SelectPickerListItem
                 key={i}
