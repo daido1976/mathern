@@ -9,7 +9,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "expo": "^34.0.4",
+    "expo": "^35.0.0",
     "expo-image-picker": "~6.0.0",
     "expo-permissions": "~6.0.0",
     "firebase": "^6.6.1",
