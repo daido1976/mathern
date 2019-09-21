@@ -37,6 +37,7 @@ export default class EditProfileScreen extends React.Component {
     this.state = {
       userId: null,
       avatar: null,
+      name: "",
       partSelected: undefined,
       addressSelected: undefined
     };
@@ -57,8 +58,8 @@ export default class EditProfileScreen extends React.Component {
 
     if (doc.exists) {
       console.log("Document data:", doc.data());
-      const { avatarUrl } = doc.data();
-      this.setState({ avatar: avatarUrl });
+      const { avatarUrl, name } = doc.data();
+      this.setState({ avatar: avatarUrl, name });
     } else {
       console.log("No such document!");
     }
@@ -172,11 +173,15 @@ export default class EditProfileScreen extends React.Component {
           </View>
           <View>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("EditName")}
+              onPress={() =>
+                this.props.navigation.navigate("EditName", {
+                  name: this.state.name
+                })
+              }
             >
               <ListItem
                 title={"名前"}
-                rightTitle={"daido1976"}
+                rightTitle={this.state.name}
                 bottomDivider
                 chevron
               ></ListItem>
