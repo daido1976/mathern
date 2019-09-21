@@ -26,9 +26,10 @@ export const EditNameScreen = props => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <TextInput
-        style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+        style={{ height: 40, width: 100, borderColor: "gray", borderWidth: 1 }}
         onChangeText={text => onChangeText(text)}
         value={value}
+        autoCapitalize="none"
       />
       <Button title="保存する" onPress={saveName} />
     </View>
