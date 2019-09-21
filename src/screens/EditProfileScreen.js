@@ -175,7 +175,8 @@ export default class EditProfileScreen extends React.Component {
             <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate("EditName", {
-                  name: this.state.name
+                  name: this.state.name,
+                  userId: this.state.userId
                 })
               }
             >
