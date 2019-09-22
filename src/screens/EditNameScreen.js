@@ -20,6 +20,7 @@ export const EditNameScreen = props => {
     } catch (error) {
       console.log(error.toString());
     }
+    props.navigation.state.params.setProfileName(value);
     props.navigation.goBack();
   };
 
