@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 // https://kmagiera.github.io/react-native-gesture-handler/docs/component-touchables.html
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, ActivityIndicator } from "react-native";
 import { Avatar, ListItem } from "react-native-elements";
 import { SelectPickerListItem } from "../lib/react-natve-elements-extends/SelectPickerListItem";
 import * as ImagePicker from "expo-image-picker";
@@ -130,6 +130,15 @@ export const EditProfileScreen = props => {
     }
   };
 
+  // FIXME: Loading の表現もっといいやり方あるはず
+  if (!name) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
   return (
     <View>
       <ScrollView>
@@ -169,7 +178,7 @@ export const EditProfileScreen = props => {
           >
             <ListItem
               title={"名前"}
-              rightTitle={name ? name : "No Name"}
+              rightTitle={name}
               bottomDivider
               chevron
             ></ListItem>
