@@ -5,13 +5,14 @@ import "firebase/firestore";
 
 export const EditNameScreen = props => {
   const [value, onChangeText] = useState(props.navigation.state.params.name);
+  const params = props.navigation.state.params;
 
   const saveName = async () => {
     try {
       await firebase
         .firestore()
         .collection("users")
-        .doc(props.navigation.state.params.userId)
+        .doc(params.userId)
         .update({
           name: value
         })
@@ -20,7 +21,7 @@ export const EditNameScreen = props => {
     } catch (error) {
       console.log(error.toString());
     }
-    props.navigation.state.params.setProfileName(value);
+    params.setProfileName(value);
     props.navigation.goBack();
   };
 
