@@ -12,7 +12,7 @@ import "firebase/storage";
 
 const list = [
   {
-    title: "住所",
+    title: { label: "住所", value: "address" },
     itemList: [
       { label: "東京", value: "tokyo" },
       { label: "埼玉", value: "saitama" },
@@ -21,7 +21,7 @@ const list = [
     ]
   },
   {
-    title: "得意な言語",
+    title: { label: "得意な言語", value: "language" },
     itemList: [
       { label: "JavaScript", value: "js" },
       { label: "Ruby", value: "ruby" },
@@ -35,6 +35,10 @@ export const EditProfileScreen = props => {
   const [userId, setUserID] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [language, setLanguage] = useState("");
+  // TODO: `list` と密結合になっているので直す
+  const currentValueList = [address, language];
 
   // TODO: useCurrentUser 的な感じで抽象化したい、返り値は CurrentUser のオブジェクトのイメージ
   useEffect(() => {
@@ -56,10 +60,12 @@ export const EditProfileScreen = props => {
 
     if (doc.exists) {
       console.log("Document data:", doc.data());
-      const { avatarUrl, name } = doc.data();
+      const { avatarUrl, name, address, language } = doc.data();
 
       setAvatar(avatarUrl);
       setName(name);
+      setAddress(address);
+      setLanguage(language);
     } else {
       console.log("No such document!");
     }
@@ -132,7 +138,8 @@ export const EditProfileScreen = props => {
   };
 
   // FIXME: Loading の表現もっといいやり方あるはず
-  if (!name) {
+  // address と language も追加しないと SelectPickerListItem の selectedItem の初期化がうまくいかない
+  if (!(name && address && language)) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <ActivityIndicator size="large" />
@@ -190,6 +197,8 @@ export const EditProfileScreen = props => {
               key={i}
               title={item.title}
               itemList={item.itemList}
+              userId={userId}
+              currentValue={currentValueList[i]}
             />
           ))}
         </View>
