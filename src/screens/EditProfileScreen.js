@@ -12,7 +12,7 @@ import "firebase/storage";
 
 const list = [
   {
-    title: "住所",
+    title: { label: "住所", value: "address" },
     itemList: [
       { label: "東京", value: "tokyo" },
       { label: "埼玉", value: "saitama" },
@@ -21,7 +21,7 @@ const list = [
     ]
   },
   {
-    title: "得意な言語",
+    title: { label: "得意な言語", value: "language" },
     itemList: [
       { label: "JavaScript", value: "js" },
       { label: "Ruby", value: "ruby" },
@@ -190,6 +190,7 @@ export const EditProfileScreen = props => {
               key={i}
               title={item.title}
               itemList={item.itemList}
+              userId={userId}
             />
           ))}
         </View>

@@ -10,8 +10,10 @@ import {
   StyleSheet
 } from "react-native";
 import { ListItem } from "react-native-elements";
+import firebase from "firebase";
+import "firebase/firestore";
 
-export const SelectPickerListItem = ({ title, itemList }) => {
+export const SelectPickerListItem = ({ title, itemList, userId }) => {
   const propsItems = itemList;
 
   const items = [{ label: "選択しない", value: "未選択" }].concat(propsItems);
@@ -52,7 +54,8 @@ export const SelectPickerListItem = ({ title, itemList }) => {
       >
         <TouchableWithoutFeedback
           onPress={() => {
-            togglePicker(true);
+            saveValue();
+            togglePicker();
           }}
           hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
           testID="done_button"
@@ -65,13 +68,30 @@ export const SelectPickerListItem = ({ title, itemList }) => {
     );
   };
 
+  // TODO: EditProfileScreen にリフトアップして saveName などとマージする
+  const saveValue = async () => {
+    try {
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(userId)
+        .update({
+          [title.value]: selectedItem.value
+        })
+        .catch(error => alert(error.message));
+      console.log("更新に成功しました！");
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
   return (
     <View style={[defaultStyles.viewContainer]}>
       <ListItem
-        title={title}
+        title={title.label}
         rightTitle={selectedItem.label || "未選択"}
         onPress={() => {
-          togglePicker(true);
+          togglePicker();
         }}
         bottomDivider
         chevron
@@ -87,7 +107,7 @@ export const SelectPickerListItem = ({ title, itemList }) => {
           style={[defaultStyles.modalViewTop]}
           testID="ios_modal_top"
           onPress={() => {
-            togglePicker(true);
+            togglePicker();
           }}
         />
         {renderInputAccessoryView()}
