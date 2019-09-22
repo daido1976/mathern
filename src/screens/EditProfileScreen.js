@@ -35,6 +35,8 @@ export const EditProfileScreen = props => {
   const [userId, setUserID] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [language, setLanguage] = useState("");
 
   // TODO: useCurrentUser 的な感じで抽象化したい、返り値は CurrentUser のオブジェクトのイメージ
   useEffect(() => {
@@ -56,10 +58,12 @@ export const EditProfileScreen = props => {
 
     if (doc.exists) {
       console.log("Document data:", doc.data());
-      const { avatarUrl, name } = doc.data();
+      const { avatarUrl, name, address, language } = doc.data();
 
       setAvatar(avatarUrl);
       setName(name);
+      setAddress(address);
+      setLanguage(language);
     } else {
       console.log("No such document!");
     }
@@ -132,7 +136,7 @@ export const EditProfileScreen = props => {
   };
 
   // FIXME: Loading の表現もっといいやり方あるはず
-  if (!name) {
+  if (!(name && address && language)) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <ActivityIndicator size="large" />
@@ -185,14 +189,19 @@ export const EditProfileScreen = props => {
               chevron
             ></ListItem>
           </TouchableOpacity>
-          {list.map((item, i) => (
-            <SelectPickerListItem
-              key={i}
-              title={item.title}
-              itemList={item.itemList}
-              userId={userId}
-            />
-          ))}
+          {/* 後ほど list.map で回せるようにする */}
+          <SelectPickerListItem
+            title={list[0].title}
+            itemList={list[0].itemList}
+            currentValue={address}
+            userId={userId}
+          />
+          <SelectPickerListItem
+            title={list[1].title}
+            itemList={list[1].itemList}
+            currentValue={language}
+            userId={userId}
+          />
         </View>
       </ScrollView>
     </View>
