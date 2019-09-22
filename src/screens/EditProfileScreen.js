@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // https://kmagiera.github.io/react-native-gesture-handler/docs/component-touchables.html
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, ActivityIndicator } from "react-native";
 import { Avatar, ListItem } from "react-native-elements";
 import { SelectPickerListItem } from "../lib/react-natve-elements-extends/SelectPickerListItem";
 import * as ImagePicker from "expo-image-picker";
@@ -31,41 +31,42 @@ const list = [
   }
 ];
 
-export default class EditProfileScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userId: null,
-      avatar: null,
-      partSelected: undefined,
-      addressSelected: undefined
-    };
-    this._getCurrentUser();
-  }
+export const EditProfileScreen = props => {
+  const [userId, setUserID] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+  const [name, setName] = useState("");
 
-  _getCurrentUser = async () => {
-    await firebase.auth().onAuthStateChanged(user => {
-      {
-        this.setState({ userId: user.uid });
-      }
-    });
+  // TODO: useCurrentUser 的な感じで抽象化したい、返り値は CurrentUser のオブジェクトのイメージ
+  useEffect(() => {
+    getCurrentUser();
+  }, [userId]);
+
+  const getCurrentUser = async () => {
+    firebase.auth().onAuthStateChanged(user => setUserID(user.uid));
+
+    if (!userId) {
+      return null;
+    }
+
     const doc = await firebase
       .firestore()
       .collection("users")
-      .doc(this.state.userId)
+      .doc(userId)
       .get();
 
     if (doc.exists) {
       console.log("Document data:", doc.data());
-      const { avatarUrl } = doc.data();
-      this.setState({ avatar: avatarUrl });
+      const { avatarUrl, name } = doc.data();
+
+      setAvatar(avatarUrl);
+      setName(name);
     } else {
       console.log("No such document!");
     }
   };
 
   // permission を確認して "grented" でなければ、 permission を得てから image pick を始める
-  pickImage = async () => {
+  const pickImage = async () => {
     // https://docs.expo.io/versions/v33.0.0/sdk/permissions/
     let { status } = await Permissions.getAsync(Permissions.CAMERA_ROLL);
 
@@ -80,17 +81,17 @@ export default class EditProfileScreen extends React.Component {
       });
 
       if (!result.cancelled) {
-        this.setState({ avatar: result.uri });
+        setAvatar(result.uri);
         console.log(result.uri);
-        this.updateAvatar();
+        updateAvatar();
       }
     }
   };
 
-  uploadAvatar = async uri => {
+  const uploadAvatar = async uri => {
     const storageRef = firebase.storage().ref();
     const userRef = storageRef.child("Users");
-    const avatarRef = userRef.child(`${this.state.userId}/Avatars/main.png`);
+    const avatarRef = userRef.child(`${userId}/Avatars/main.png`);
 
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -113,13 +114,13 @@ export default class EditProfileScreen extends React.Component {
     return await snapshot.ref.getDownloadURL();
   };
 
-  updateAvatar = async () => {
+  const updateAvatar = async () => {
     try {
-      const downloadUrl = await this.uploadAvatar(this.state.avatar);
+      const downloadUrl = await uploadAvatar(avatar);
       await firebase
         .firestore()
         .collection("users")
-        .doc(this.state.userId)
+        .doc(userId)
         .update({
           avatarUrl: downloadUrl
         })
@@ -130,63 +131,69 @@ export default class EditProfileScreen extends React.Component {
     }
   };
 
-  onAddressValueChange = value => {
-    this.setState({
-      addressSelected: value
-    });
-  };
-
-  onPartValueChange = value => {
-    this.setState({
-      partSelected: value
-    });
-  };
-
-  render() {
+  // FIXME: Loading の表現もっといいやり方あるはず
+  if (!name) {
     return (
-      <View>
-        <ScrollView>
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 10
-            }}
-          >
-            <TouchableOpacity onPress={this.pickImage}>
-              <Avatar
-                rounded
-                size="xlarge"
-                showEditButton
-                source={{
-                  uri: this.state.avatar
-                    ? this.state.avatar
-                    : "https://facebook.github.io/react-native/docs/assets/favicon.png"
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={{ marginTop: 25, backgroundColor: "#C7C7CD" }}>
-            <Text style={{ marginVertical: 10 }}>プロフィール</Text>
-          </View>
-          <View>
-            <ListItem
-              title={"名前"}
-              rightTitle={"daido1976"}
-              bottomDivider
-              chevron
-            ></ListItem>
-            {list.map((item, i) => (
-              <SelectPickerListItem
-                key={i}
-                title={item.title}
-                itemList={item.itemList}
-              />
-            ))}
-          </View>
-        </ScrollView>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" />
       </View>
     );
   }
-}
+
+  return (
+    <View>
+      <ScrollView>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 10
+          }}
+        >
+          <TouchableOpacity onPress={pickImage}>
+            <Avatar
+              rounded
+              size="xlarge"
+              showEditButton
+              // FIXME: 初期アイコンなんとかする、useState の初期値に突っ込むのもありかも
+              source={{
+                uri: avatar
+                  ? avatar
+                  : "https://facebook.github.io/react-native/docs/assets/favicon.png"
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ marginTop: 25, backgroundColor: "#C7C7CD" }}>
+          <Text style={{ marginVertical: 10 }}>プロフィール</Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate("EditName", {
+                name,
+                userId,
+                setProfileName: setName
+              })
+            }
+          >
+            <ListItem
+              title={"名前"}
+              rightTitle={name}
+              bottomDivider
+              chevron
+            ></ListItem>
+          </TouchableOpacity>
+          {list.map((item, i) => (
+            <SelectPickerListItem
+              key={i}
+              title={item.title}
+              itemList={item.itemList}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
