@@ -160,10 +160,7 @@ export const EditProfileScreen = props => {
         <View>
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate("EditName", {
-                name: name,
-                userId: userId
-              })
+              props.navigation.navigate("EditName", { name, userId })
             }
           >
             <ListItem
