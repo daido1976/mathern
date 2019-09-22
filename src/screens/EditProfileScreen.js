@@ -37,6 +37,8 @@ export const EditProfileScreen = props => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [language, setLanguage] = useState("");
+  // TODO: `list` と密結合になっているので直す
+  const currentValueList = [address, language];
 
   // TODO: useCurrentUser 的な感じで抽象化したい、返り値は CurrentUser のオブジェクトのイメージ
   useEffect(() => {
@@ -189,19 +191,15 @@ export const EditProfileScreen = props => {
               chevron
             ></ListItem>
           </TouchableOpacity>
-          {/* 後ほど list.map で回せるようにする */}
-          <SelectPickerListItem
-            title={list[0].title}
-            itemList={list[0].itemList}
-            currentValue={address}
-            userId={userId}
-          />
-          <SelectPickerListItem
-            title={list[1].title}
-            itemList={list[1].itemList}
-            currentValue={language}
-            userId={userId}
-          />
+          {list.map((item, i) => (
+            <SelectPickerListItem
+              key={i}
+              title={item.title}
+              itemList={item.itemList}
+              userId={userId}
+              currentValue={currentValueList[i]}
+            />
+          ))}
         </View>
       </ScrollView>
     </View>
