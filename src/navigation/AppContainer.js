@@ -6,7 +6,7 @@ import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import ProfileStack from "../screens/ProfileStack";
 import DiscoverScreen from "../screens/DiscoverScreen";
 import { MessageScreen } from "../screens/MessageScreen";
-import EditProfileScreen from "../screens/EditProfileScreen";
+import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { EditNameScreen } from "../screens/EditNameScreen";
 
 const TabNavigator = createBottomTabNavigator(
