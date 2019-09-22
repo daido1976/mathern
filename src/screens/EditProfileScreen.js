@@ -138,6 +138,7 @@ export const EditProfileScreen = props => {
   };
 
   // FIXME: Loading の表現もっといいやり方あるはず
+  // address と language も追加しないと SelectPickerListItem の selectedItem の初期化がうまくいかない
   if (!(name && address && language)) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
