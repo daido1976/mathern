@@ -35,8 +35,6 @@ export const EditProfileScreen = props => {
   const [userId, setUserID] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState("");
-  const [partSelected, setPartSelected] = useState(undefined);
-  const [addressSelected, setAddressSelected] = useState(undefined);
 
   useEffect(() => {
     getCurrentUser();
@@ -130,14 +128,6 @@ export const EditProfileScreen = props => {
     } catch (error) {
       console.log(error.toString());
     }
-  };
-
-  const onAddressValueChange = value => {
-    setAddressSelected(value);
-  };
-
-  const onPartValueChange = value => {
-    setPartSelected(value);
   };
 
   return (
