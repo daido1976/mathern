@@ -42,7 +42,7 @@ export const SelectPickerListItem = ({ title, itemList, userId }) => {
     });
   };
 
-  const onValueChange = (value, index) => {
+  const onValueChange = (_value, index) => {
     setSelectedItem(items[index]);
   };
 
@@ -90,9 +90,7 @@ export const SelectPickerListItem = ({ title, itemList, userId }) => {
       <ListItem
         title={title.label}
         rightTitle={selectedItem.label || "未選択"}
-        onPress={() => {
-          togglePicker();
-        }}
+        onPress={togglePicker}
         bottomDivider
         chevron
       ></ListItem>
@@ -106,9 +104,7 @@ export const SelectPickerListItem = ({ title, itemList, userId }) => {
         <TouchableOpacity
           style={[defaultStyles.modalViewTop]}
           testID="ios_modal_top"
-          onPress={() => {
-            togglePicker();
-          }}
+          onPress={togglePicker}
         />
         {renderInputAccessoryView()}
         <View style={[defaultStyles.modalViewBottom, { height: 215 }]}>
