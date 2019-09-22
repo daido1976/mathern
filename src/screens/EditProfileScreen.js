@@ -169,7 +169,7 @@ export const EditProfileScreen = props => {
           >
             <ListItem
               title={"名前"}
-              rightTitle={name}
+              rightTitle={name ? name : "No Name"}
               bottomDivider
               chevron
             ></ListItem>
