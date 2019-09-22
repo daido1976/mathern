@@ -21,11 +21,14 @@ export const EditNameScreen = props => {
     } catch (error) {
       console.log(error.toString());
     }
+
+    // 親コンポーネントの state を更新する
     params.setProfileName(value);
     props.navigation.goBack();
   };
 
   return (
+    // TODO: UI をいい感じにする
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <TextInput
         style={{ height: 40, width: 100, borderColor: "gray", borderWidth: 1 }}

@@ -36,6 +36,7 @@ export const EditProfileScreen = props => {
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState("");
 
+  // TODO: useCurrentUser 的な感じで抽象化したい、返り値は CurrentUser のオブジェクトのイメージ
   useEffect(() => {
     getCurrentUser();
   }, [userId]);
@@ -154,6 +155,7 @@ export const EditProfileScreen = props => {
               rounded
               size="xlarge"
               showEditButton
+              // FIXME: 初期アイコンなんとかする、useState の初期値に突っ込むのもありかも
               source={{
                 uri: avatar
                   ? avatar
