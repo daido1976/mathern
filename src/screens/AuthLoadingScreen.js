@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { View } from "react-native";
-import { Spinner } from "native-base";
+import { View, ActivityIndicator } from "react-native";
 import firebase from "firebase";
 
 export default class AuthLoadingScreen extends React.Component {
@@ -26,7 +25,7 @@ export default class AuthLoadingScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Spinner color="gray" />
+        <ActivityIndicator size="large" />
       </View>
     );
   }
