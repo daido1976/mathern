@@ -1,75 +1,50 @@
 import React from "react";
-import { View, Text, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity
+} from "react-native";
 import { Avatar } from "react-native-elements";
 
 const { width } = Dimensions.get("window");
+const list = Array.from({ length: 100 }, (_v, i) => i);
 export default class DiscoverScreen extends React.Component {
   render() {
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap"
-        }}
-      >
+      <ScrollView>
         <View
           style={{
-            width: width * 0.5,
-            backgroundColor: "lightgray",
-            alignItems: "center"
+            flexDirection: "row",
+            flexWrap: "wrap"
           }}
         >
-          <Avatar
-            rounded
-            size="xlarge"
-            source={{
-              uri:
-                "https://facebook.github.io/react-native/docs/assets/favicon.png"
-            }}
-          />
-          <View>
-            <Text>30歳 埼玉</Text>
-          </View>
+          {list.map(v => (
+            <TouchableOpacity key={v}>
+              <View
+                style={{
+                  marginVertical: 10,
+                  width: width * 0.5,
+                  alignItems: "center"
+                }}
+              >
+                <Avatar
+                  rounded
+                  size="xlarge"
+                  source={{
+                    uri:
+                      "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                  }}
+                />
+                <View style={{ marginTop: 5 }}>
+                  <Text>30歳 埼玉</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
-        <View
-          style={{
-            width: width * 0.5,
-            backgroundColor: "skyblue",
-            alignItems: "center"
-          }}
-        >
-          <Avatar
-            rounded
-            size="xlarge"
-            source={{
-              uri:
-                "https://facebook.github.io/react-native/docs/assets/favicon.png"
-            }}
-          />
-          <View>
-            <Text>30歳 埼玉</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            width: width * 0.5,
-            backgroundColor: "skyblue",
-            alignItems: "center"
-          }}
-        >
-          <Avatar
-            rounded
-            size="xlarge"
-            source={{
-              uri:
-                "https://facebook.github.io/react-native/docs/assets/favicon.png"
-            }}
-          />
-          <View>
-            <Text>30歳 埼玉</Text>
-          </View>
-        </View>
-      </View>
+      </ScrollView>
     );
   }
 }
