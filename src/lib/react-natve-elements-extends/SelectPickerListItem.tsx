@@ -22,7 +22,8 @@ export const SelectPickerListItem = ({
   const propsItems = itemList;
   const items = [{ label: "選択しない", value: "未選択" }].concat(propsItems);
   const initialIndex = () => {
-    if (!currentValue) {
+    // FIXME: 文字列一致はやばい気がする
+    if (currentValue === "No Select") {
       return 0;
     }
 

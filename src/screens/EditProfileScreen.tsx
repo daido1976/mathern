@@ -138,6 +138,7 @@ export const EditProfileScreen = props => {
   };
 
   // FIXME: Loading の表現もっといいやり方あるはず
+  // FIXME: address と language のデフォルト値入れないとここで処理が止まるので、サインアップ時に "No Select" という値を入れてしまっている
   // address と language も追加しないと SelectPickerListItem の selectedItem の初期化がうまくいかない
   if (!(name && address && language)) {
     return (
