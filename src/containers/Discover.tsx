@@ -8,7 +8,12 @@ export const Discover = props => {
   const [users, setUsers] = useState([]);
 
   const handlePress = user => () => {
-    props.navigation.navigate("ShowProfile", { userId: user.id });
+    props.navigation.navigate("ShowProfile", {
+      userId: user.id,
+      avatarUrl: user.avatarUrl,
+      name: user.name,
+      address: user.address
+    });
   };
 
   useEffect(() => {
@@ -29,6 +34,7 @@ export const Discover = props => {
       return {
         id: doc.id,
         age: 20,
+        name: doc.data().name,
         address: doc.data().address,
         avatarUrl: doc.data().avatarUrl
       };
