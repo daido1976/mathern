@@ -89,7 +89,7 @@ export const EditProfileScreen = props => {
       if (!result.cancelled) {
         setAvatar(result.uri);
         console.log(result.uri);
-        updateAvatar();
+        updateAvatar(result.uri);
       }
     }
   };
@@ -120,9 +120,9 @@ export const EditProfileScreen = props => {
     return await snapshot.ref.getDownloadURL();
   };
 
-  const updateAvatar = async () => {
+  const updateAvatar = async uri => {
     try {
-      const downloadUrl = await uploadAvatar(avatar);
+      const downloadUrl = await uploadAvatar(uri);
       await firebase
         .firestore()
         .collection("users")
