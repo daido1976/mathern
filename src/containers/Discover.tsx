@@ -4,8 +4,12 @@ import firebase from "firebase";
 import "firebase/firestore";
 import { DiscoverScreen } from "../screens/DiscoverScreen";
 
-export const Discover = () => {
+export const Discover = props => {
   const [users, setUsers] = useState([]);
+
+  const handlePress = user => () => {
+    props.navigation.navigate("ShowProfile", { userId: user.id });
+  };
 
   useEffect(() => {
     getAllUser();
@@ -23,7 +27,7 @@ export const Discover = () => {
 
     const users = usersSnapshot.docs.map(doc => {
       return {
-        userId: doc.id,
+        id: doc.id,
         age: 20,
         address: doc.data().address,
         avatarUrl: doc.data().avatarUrl
@@ -33,5 +37,5 @@ export const Discover = () => {
     setUsers(users);
   };
 
-  return <DiscoverScreen data={users}></DiscoverScreen>;
+  return <DiscoverScreen data={users} onPress={handlePress}></DiscoverScreen>;
 };

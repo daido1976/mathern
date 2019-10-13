@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Avatar } from "react-native-elements";
 
-export const DiscoverScreen = ({ data }) => {
+export const DiscoverScreen = ({ data, onPress }) => {
   const { width } = Dimensions.get("window");
 
   return (
@@ -20,7 +20,7 @@ export const DiscoverScreen = ({ data }) => {
         }}
       >
         {data.map((user, i) => (
-          <TouchableOpacity key={i}>
+          <TouchableOpacity key={i} onPress={onPress(user)}>
             <View
               style={{
                 marginVertical: 10,
