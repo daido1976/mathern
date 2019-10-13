@@ -99,24 +99,12 @@ export const EditProfileScreen = props => {
     const userRef = storageRef.child("Users");
     const avatarRef = userRef.child(`${userId}/Avatars/main.png`);
 
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = () => {
-        resolve(xhr.response);
-      };
-
-      xhr.onerror = e => {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
+    // https://facebook.github.io/react-native/docs/network#using-fetch
+    const response = await fetch(uri);
+    // https://developer.mozilla.org/en-US/docs/Web/API/Body/blob
+    const blob = await response.blob();
 
     const snapshot = await avatarRef.put(blob);
-    blob.close();
     return await snapshot.ref.getDownloadURL();
   };
 
