@@ -94,13 +94,13 @@ export const EditProfileScreen = props => {
     }
   };
 
-  const uploadAvatar = async uri => {
+  const uploadAvatar = async localFileUri => {
     const storageRef = firebase.storage().ref();
     const userRef = storageRef.child("Users");
     const avatarRef = userRef.child(`${userId}/Avatars/main.png`);
 
     // https://facebook.github.io/react-native/docs/network#using-fetch
-    const response = await fetch(uri);
+    const response = await fetch(localFileUri);
     // https://developer.mozilla.org/en-US/docs/Web/API/Body/blob
     const blob = await response.blob();
 
@@ -108,9 +108,9 @@ export const EditProfileScreen = props => {
     return await snapshot.ref.getDownloadURL();
   };
 
-  const updateAvatar = async uri => {
+  const updateAvatar = async localFileUri => {
     try {
-      const downloadUrl = await uploadAvatar(uri);
+      const downloadUrl = await uploadAvatar(localFileUri);
       await firebase
         .firestore()
         .collection("users")
