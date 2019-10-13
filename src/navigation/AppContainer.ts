@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import SignInScreen from "../screens/SignInScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import ProfileStack from "../screens/ProfileStack";
-import { DiscoverScreen } from "../screens/DiscoverScreen";
+import { Discover } from "../containers/Discover";
 import { MessageScreen } from "../screens/MessageScreen";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { EditNameScreen } from "../screens/EditNameScreen";
@@ -12,7 +12,7 @@ import { EditNameScreen } from "../screens/EditNameScreen";
 const TabNavigator = createBottomTabNavigator(
   {
     Profile: ProfileStack,
-    Discover: DiscoverScreen,
+    Discover,
     Message: MessageScreen
   },
   {

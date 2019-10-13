@@ -8,9 +8,8 @@ import {
 } from "react-native";
 import { Avatar } from "react-native-elements";
 
-export const DiscoverScreen = () => {
+export const DiscoverScreen = ({ data }) => {
   const { width } = Dimensions.get("window");
-  const list = Array.from({ length: 100 }, (_v, i) => i);
 
   return (
     <ScrollView>
@@ -20,8 +19,8 @@ export const DiscoverScreen = () => {
           flexWrap: "wrap"
         }}
       >
-        {list.map(v => (
-          <TouchableOpacity key={v}>
+        {data.map((user, i) => (
+          <TouchableOpacity key={i}>
             <View
               style={{
                 marginVertical: 10,
@@ -33,12 +32,13 @@ export const DiscoverScreen = () => {
                 rounded
                 size="xlarge"
                 source={{
-                  uri:
-                    "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                  uri: user.avatarUrl
                 }}
               />
               <View style={{ marginTop: 5 }}>
-                <Text>30歳 埼玉</Text>
+                <Text>
+                  {user.age}歳 {user.address}
+                </Text>
               </View>
             </View>
           </TouchableOpacity>
