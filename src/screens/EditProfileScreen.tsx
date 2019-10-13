@@ -87,42 +87,30 @@ export const EditProfileScreen = props => {
       });
 
       if (!result.cancelled) {
+        // result.uri example: file:///var/mobile/Containers/Data/Application/hoge.jpg
         setAvatar(result.uri);
-        console.log(result.uri);
-        updateAvatar();
+        updateAvatar(result.uri);
       }
     }
   };
 
-  const uploadAvatar = async uri => {
+  const uploadAvatar = async localFileUri => {
     const storageRef = firebase.storage().ref();
     const userRef = storageRef.child("Users");
     const avatarRef = userRef.child(`${userId}/Avatars/main.png`);
 
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = () => {
-        resolve(xhr.response);
-      };
-
-      xhr.onerror = e => {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
+    // https://facebook.github.io/react-native/docs/network#using-fetch
+    const response = await fetch(localFileUri);
+    // https://developer.mozilla.org/en-US/docs/Web/API/Body/blob
+    const blob = await response.blob();
 
     const snapshot = await avatarRef.put(blob);
-    blob.close();
     return await snapshot.ref.getDownloadURL();
   };
 
-  const updateAvatar = async () => {
+  const updateAvatar = async localFileUri => {
     try {
-      const downloadUrl = await uploadAvatar(avatar);
+      const downloadUrl = await uploadAvatar(localFileUri);
       await firebase
         .firestore()
         .collection("users")
