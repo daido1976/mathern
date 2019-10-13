@@ -38,7 +38,10 @@ export default class SignInScreen extends React.Component {
             .collection("users")
             .doc(id)
             .set({
-              name: "No Name"
+              name: "No Name",
+              // FIXME: 文字列はやばい気がする
+              address: "No Select",
+              language: "No Select"
             });
         })
         .then(() => this.props.navigation.navigate("Home"))
