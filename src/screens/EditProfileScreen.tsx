@@ -87,8 +87,8 @@ export const EditProfileScreen = props => {
       });
 
       if (!result.cancelled) {
+        // result.uri example: file:///var/mobile/Containers/Data/Application/hoge.jpg
         setAvatar(result.uri);
-        console.log(result.uri);
         updateAvatar(result.uri);
       }
     }
