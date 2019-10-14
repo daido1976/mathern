@@ -5,6 +5,7 @@ import SignInScreen from "../screens/SignInScreen";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import ProfileStack from "../screens/ProfileStack";
 import { Discover } from "../containers/Discover";
+import { Liked } from "../containers/Liked";
 import { MessageScreen } from "../screens/MessageScreen";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { EditNameScreen } from "../screens/EditNameScreen";
@@ -14,6 +15,7 @@ const TabNavigator = createBottomTabNavigator(
   {
     Profile: ProfileStack,
     Discover,
+    Liked,
     Message: MessageScreen
   },
   {

@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Button } from "react-native";
 import firebase from "firebase";
 import "firebase/firestore";
 import { DiscoverScreen } from "../screens/DiscoverScreen";
 
-export const Discover = props => {
+export const Liked = props => {
   const [users, setUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState();
 
-  const likesPress = user => async () => {
+  const thanksPress = user => async () => {
     try {
-      // 自分の likes に相手の ID を追加
+      // 自分の matches に相手の ID を追加
       await firebase
         .firestore()
         .collection("users")
         .doc(currentUserId)
         .update({
-          likes: firebase.firestore.FieldValue.arrayUnion(user.id)
+          matches: firebase.firestore.FieldValue.arrayUnion(user.id)
         })
         .catch(error => alert(error.message));
 
-      // 相手の liked に自分の ID を追加
+      // 相手の matches に自分の ID を追加
       await firebase
         .firestore()
         .collection("users")
         .doc(user.id)
         .update({
-          liked: firebase.firestore.FieldValue.arrayUnion(currentUserId)
+          matches: firebase.firestore.FieldValue.arrayUnion(currentUserId)
         })
         .catch(error => alert(error.message));
 
@@ -45,31 +44,40 @@ export const Discover = props => {
         address: user.address
       },
       currentUserId,
-      handlePress: likesPress,
-      profileType: "others"
+      handlePress: thanksPress,
+      profileType: "liked"
     });
   };
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
-    getDiscoverUsers();
+    getLikedUsers();
   }, [currentUserId]);
 
-  const getDiscoverUsers = async () => {
+  const getLikedUsers = async () => {
+    // TODO: 実装する
+    firebase
+      .firestore()
+      .collection("users")
+      .onSnapshot(querySnapShot => {
+        // Snapshot が更新されたらここのコールバックに入ってくる
+        console.log("onsnapshot!!!", querySnapShot);
+      });
+
+    if (!currentUserId) {
+      return null;
+    }
+
     const usersSnapshot = await firebase
       .firestore()
       .collection("users")
+      .where("likes", "array-contains", currentUserId)
       .get();
 
     usersSnapshot.forEach(doc => {
       console.log(doc.id, " => ", doc.data());
     });
 
-    if (!currentUserId) {
-      return null;
-    }
-
-    // TODO: likes 済みのユーザは表示しないようにする
     const users = usersSnapshot.docs
       .map(doc => {
         return {
