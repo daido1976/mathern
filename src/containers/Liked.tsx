@@ -52,15 +52,17 @@ export const Liked = props => {
       console.log(doc.id, " => ", doc.data());
     });
 
-    const users = usersSnapshot.docs.map(doc => {
-      return {
-        id: doc.id,
-        age: 20,
-        name: doc.data().name,
-        address: doc.data().address,
-        avatarUrl: doc.data().avatarUrl
-      };
-    });
+    const users = usersSnapshot.docs
+      .map(doc => {
+        return {
+          id: doc.id,
+          age: 20,
+          name: doc.data().name,
+          address: doc.data().address,
+          avatarUrl: doc.data().avatarUrl
+        };
+      })
+      .filter(user => user.id !== currentUserId);
 
     setUsers(users);
   };

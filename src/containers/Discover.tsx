@@ -52,10 +52,10 @@ export const Discover = props => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
-    getAllUser();
-  }, []);
+    getDiscoverUsers();
+  }, [currentUserId]);
 
-  const getAllUser = async () => {
+  const getDiscoverUsers = async () => {
     const usersSnapshot = await firebase
       .firestore()
       .collection("users")
@@ -65,15 +65,21 @@ export const Discover = props => {
       console.log(doc.id, " => ", doc.data());
     });
 
-    const users = usersSnapshot.docs.map(doc => {
-      return {
-        id: doc.id,
-        age: 20,
-        name: doc.data().name,
-        address: doc.data().address,
-        avatarUrl: doc.data().avatarUrl
-      };
-    });
+    if (!currentUserId) {
+      return null;
+    }
+
+    const users = usersSnapshot.docs
+      .map(doc => {
+        return {
+          id: doc.id,
+          age: 20,
+          name: doc.data().name,
+          address: doc.data().address,
+          avatarUrl: doc.data().avatarUrl
+        };
+      })
+      .filter(user => user.id !== currentUserId);
 
     setUsers(users);
   };
