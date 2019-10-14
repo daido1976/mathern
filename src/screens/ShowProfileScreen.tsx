@@ -5,6 +5,7 @@ import { Avatar, ListItem, Card, Button } from "react-native-elements";
 export const ShowProfileScreen = props => {
   const { width } = Dimensions.get("window");
   const user = props.navigation.state.params.user;
+  const profileType = props.navigation.state.params.profileType;
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

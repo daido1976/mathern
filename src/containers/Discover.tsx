@@ -14,7 +14,8 @@ export const Discover = props => {
         avatarUrl: user.avatarUrl,
         name: user.name,
         address: user.address
-      }
+      },
+      profileType: "Others"
     });
   };
 
