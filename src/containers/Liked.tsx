@@ -7,6 +7,8 @@ export const Liked = props => {
   const [users, setUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState();
 
+  const thanksPress = user => async () => {};
+
   const showProfile = user => () => {
     props.navigation.navigate("ShowProfile", {
       user: {
@@ -16,6 +18,7 @@ export const Liked = props => {
         address: user.address
       },
       currentUserId,
+      thanksPress,
       profileType: "liked"
     });
   };

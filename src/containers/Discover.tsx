@@ -8,6 +8,34 @@ export const Discover = props => {
   const [users, setUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState();
 
+  const likesPress = user => async () => {
+    try {
+      // 自分の likes に相手の ID を追加
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(currentUserId)
+        .update({
+          likes: firebase.firestore.FieldValue.arrayUnion(user.id)
+        })
+        .catch(error => alert(error.message));
+
+      // 相手の liked に自分の ID を追加
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(user.id)
+        .update({
+          liked: firebase.firestore.FieldValue.arrayUnion(currentUserId)
+        })
+        .catch(error => alert(error.message));
+
+      console.log("更新に成功しました！");
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
   const showProfile = user => () => {
     props.navigation.navigate("ShowProfile", {
       user: {
@@ -17,6 +45,7 @@ export const Discover = props => {
         address: user.address
       },
       currentUserId,
+      likesPress,
       profileType: "others"
     });
   };
