@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, ScrollView, Dimensions } from "react-native";
-import { Avatar, ListItem, Card } from "react-native-elements";
+import { Avatar, ListItem, Card, Button } from "react-native-elements";
 
 export const ShowProfileScreen = props => {
   const { width } = Dimensions.get("window");
@@ -32,6 +32,13 @@ export const ShowProfileScreen = props => {
           </Card>
         </View>
       </ScrollView>
+      <View>
+        <Button
+          title="いいね！"
+          style={{ marginBottom: 50 }}
+          buttonStyle={{ backgroundColor: "blue" }}
+        ></Button>
+      </View>
     </View>
   );
 };
