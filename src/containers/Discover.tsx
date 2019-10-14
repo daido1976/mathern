@@ -69,6 +69,7 @@ export const Discover = props => {
       return null;
     }
 
+    // TODO: likes 済みのユーザは表示しないようにする
     const users = usersSnapshot.docs
       .map(doc => {
         return {
