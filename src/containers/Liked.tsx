@@ -26,6 +26,15 @@ export const Liked = props => {
   }, []);
 
   const getAllUser = async () => {
+    // TODO: 実装する
+    firebase
+      .firestore()
+      .collection("users")
+      .onSnapshot(querySnapShot => {
+        // Snapshot が更新されたらここのコールバックに入ってくる
+        console.log("onsnapshot!!!", querySnapShot);
+      });
+
     const usersSnapshot = await firebase
       .firestore()
       .collection("users")
