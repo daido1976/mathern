@@ -18,7 +18,7 @@ export const Liked = props => {
         address: user.address
       },
       currentUserId,
-      thanksPress,
+      handlePress: thanksPress,
       profileType: "liked"
     });
   };

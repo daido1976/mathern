@@ -45,7 +45,7 @@ export const Discover = props => {
         address: user.address
       },
       currentUserId,
-      likesPress,
+      handlePress: likesPress,
       profileType: "others"
     });
   };

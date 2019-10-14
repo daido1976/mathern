@@ -42,7 +42,7 @@ export const ShowProfileScreen = props => {
                   title="ありがとう！"
                   style={{ marginBottom: 50 }}
                   buttonStyle={{ backgroundColor: "green" }}
-                  onPress={params.thanksPress(user)}
+                  onPress={params.handlePress(user)}
                 ></Button>
               );
             }
@@ -52,7 +52,7 @@ export const ShowProfileScreen = props => {
                   title="いいね！"
                   style={{ marginBottom: 50 }}
                   buttonStyle={{ backgroundColor: "blue" }}
-                  onPress={params.likesPress(user)}
+                  onPress={params.handlePress(user)}
                 ></Button>
               );
             }
