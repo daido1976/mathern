@@ -4,7 +4,7 @@ import { Avatar, ListItem, Card, Button } from "react-native-elements";
 
 export const ShowProfileScreen = props => {
   const { width } = Dimensions.get("window");
-  const params = props.navigation.state.params;
+  const user = props.navigation.state.params.user;
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -20,15 +20,15 @@ export const ShowProfileScreen = props => {
             rounded
             size="xlarge"
             source={{
-              uri: params.avatarUrl
+              uri: user.avatarUrl
             }}
           />
         </View>
 
         <View style={{ marginTop: 25, width: width }}>
           <Card title="基本情報" containerStyle={{ borderRadius: 10 }}>
-            <ListItem title={"名前"} rightTitle={params.name}></ListItem>
-            <ListItem title={"住所"} rightTitle={params.address}></ListItem>
+            <ListItem title={"名前"} rightTitle={user.name}></ListItem>
+            <ListItem title={"住所"} rightTitle={user.address}></ListItem>
           </Card>
         </View>
       </ScrollView>

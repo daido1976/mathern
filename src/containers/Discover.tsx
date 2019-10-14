@@ -9,10 +9,12 @@ export const Discover = props => {
 
   const handlePress = user => () => {
     props.navigation.navigate("ShowProfile", {
-      userId: user.id,
-      avatarUrl: user.avatarUrl,
-      name: user.name,
-      address: user.address
+      user: {
+        id: user.id,
+        avatarUrl: user.avatarUrl,
+        name: user.name,
+        address: user.address
+      }
     });
   };
 
