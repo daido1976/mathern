@@ -1,15 +1,43 @@
 import React from "react";
 import { View, Text, ScrollView, Dimensions } from "react-native";
 import { Avatar, ListItem, Card, Button } from "react-native-elements";
+import firebase from "firebase";
+import "firebase/firestore";
 
 export const ShowProfileScreen = props => {
   const { width } = Dimensions.get("window");
   const params = props.navigation.state.params;
   const user = params.user;
 
-  const handlePress = () => {
+  const handlePress = async () => {
     console.log(params.currentUserId);
     console.log(user.id);
+
+    try {
+      // 自分の likes に相手の ID を追加
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(params.currentUserId)
+        .update({
+          likes: firebase.firestore.FieldValue.arrayUnion(user.id)
+        })
+        .catch(error => alert(error.message));
+
+      // 相手の liked に自分の ID を追加
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(user.id)
+        .update({
+          liked: firebase.firestore.FieldValue.arrayUnion(params.currentUserId)
+        })
+        .catch(error => alert(error.message));
+
+      console.log("更新に成功しました！");
+    } catch (error) {
+      console.log(error.toString());
+    }
   };
 
   return (
