@@ -7,7 +7,7 @@ export const Liked = props => {
   const [users, setUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState();
 
-  const handlePress = user => () => {
+  const showProfile = user => () => {
     props.navigation.navigate("ShowProfile", {
       user: {
         id: user.id,
@@ -62,5 +62,7 @@ export const Liked = props => {
     setUsers(users);
   };
 
-  return <DiscoverScreen data={users} onPress={handlePress}></DiscoverScreen>;
+  return (
+    <DiscoverScreen data={users} showProfile={showProfile}></DiscoverScreen>
+  );
 };
