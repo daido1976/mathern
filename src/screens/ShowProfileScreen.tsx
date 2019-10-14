@@ -4,8 +4,13 @@ import { Avatar, ListItem, Card, Button } from "react-native-elements";
 
 export const ShowProfileScreen = props => {
   const { width } = Dimensions.get("window");
-  const user = props.navigation.state.params.user;
-  const profileType = props.navigation.state.params.profileType;
+  const params = props.navigation.state.params;
+  const user = params.user;
+
+  const handlePress = () => {
+    console.log(params.currentUserId);
+    console.log(user.id);
+  };
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -38,6 +43,7 @@ export const ShowProfileScreen = props => {
           title="いいね！"
           style={{ marginBottom: 50 }}
           buttonStyle={{ backgroundColor: "blue" }}
+          onPress={handlePress}
         ></Button>
       </View>
     </View>

@@ -6,6 +6,7 @@ import { DiscoverScreen } from "../screens/DiscoverScreen";
 
 export const Discover = props => {
   const [users, setUsers] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState();
 
   const handlePress = user => () => {
     props.navigation.navigate("ShowProfile", {
@@ -15,11 +16,13 @@ export const Discover = props => {
         name: user.name,
         address: user.address
       },
+      currentUserId,
       profileType: "Others"
     });
   };
 
   useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
     getAllUser();
   }, []);
 
