@@ -22,10 +22,10 @@ export const Liked = props => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
-    getAllUser();
-  }, []);
+    getLikedUsers();
+  }, [currentUserId]);
 
-  const getAllUser = async () => {
+  const getLikedUsers = async () => {
     // TODO: 実装する
     firebase
       .firestore()
@@ -35,9 +35,14 @@ export const Liked = props => {
         console.log("onsnapshot!!!", querySnapShot);
       });
 
+    if (!currentUserId) {
+      return null;
+    }
+
     const usersSnapshot = await firebase
       .firestore()
       .collection("users")
+      .where("likes", "array-contains", currentUserId)
       .get();
 
     usersSnapshot.forEach(doc => {
