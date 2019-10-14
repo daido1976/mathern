@@ -7,7 +7,33 @@ export const Liked = props => {
   const [users, setUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState();
 
-  const thanksPress = user => async () => {};
+  const thanksPress = user => async () => {
+    try {
+      // 自分の matches に相手の ID を追加
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(currentUserId)
+        .update({
+          matches: firebase.firestore.FieldValue.arrayUnion(user.id)
+        })
+        .catch(error => alert(error.message));
+
+      // 相手の matches に自分の ID を追加
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(user.id)
+        .update({
+          matches: firebase.firestore.FieldValue.arrayUnion(currentUserId)
+        })
+        .catch(error => alert(error.message));
+
+      console.log("更新に成功しました！");
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
 
   const showProfile = user => () => {
     props.navigation.navigate("ShowProfile", {
