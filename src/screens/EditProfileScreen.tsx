@@ -94,7 +94,7 @@ export const EditProfileScreen = props => {
     }
   };
 
-  const uploadAvatar = async localFileUri => {
+  const uploadAvatar = async (localFileUri: string) => {
     const storageRef = firebase.storage().ref();
     const userRef = storageRef.child("Users");
     const avatarRef = userRef.child(`${userId}/Avatars/main.png`);
@@ -108,7 +108,7 @@ export const EditProfileScreen = props => {
     return await snapshot.ref.getDownloadURL();
   };
 
-  const updateAvatar = async localFileUri => {
+  const updateAvatar = async (localFileUri: string) => {
     try {
       const downloadUrl = await uploadAvatar(localFileUri);
       await firebase

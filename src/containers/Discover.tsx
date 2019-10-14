@@ -6,12 +6,23 @@ import { DiscoverScreen } from "../screens/DiscoverScreen";
 
 export const Discover = props => {
   const [users, setUsers] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState();
 
   const handlePress = user => () => {
-    props.navigation.navigate("ShowProfile", { userId: user.id });
+    props.navigation.navigate("ShowProfile", {
+      user: {
+        id: user.id,
+        avatarUrl: user.avatarUrl,
+        name: user.name,
+        address: user.address
+      },
+      currentUserId,
+      profileType: "Others"
+    });
   };
 
   useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
     getAllUser();
   }, []);
 
@@ -29,6 +40,7 @@ export const Discover = props => {
       return {
         id: doc.id,
         age: 20,
+        name: doc.data().name,
         address: doc.data().address,
         avatarUrl: doc.data().avatarUrl
       };
