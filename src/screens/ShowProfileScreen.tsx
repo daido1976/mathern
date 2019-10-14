@@ -11,9 +11,6 @@ export const ShowProfileScreen = props => {
 
   // FIXME: Container にリフトアップする
   const handlePress = async () => {
-    console.log(params.currentUserId);
-    console.log(user.id);
-
     try {
       // 自分の likes に相手の ID を追加
       await firebase
@@ -68,12 +65,30 @@ export const ShowProfileScreen = props => {
         </View>
       </ScrollView>
       <View>
-        <Button
-          title="いいね！"
-          style={{ marginBottom: 50 }}
-          buttonStyle={{ backgroundColor: "blue" }}
-          onPress={handlePress}
-        ></Button>
+        {(() => {
+          switch (params.profileType) {
+            case "liked": {
+              return (
+                <Button
+                  title="ありがとう！"
+                  style={{ marginBottom: 50 }}
+                  buttonStyle={{ backgroundColor: "green" }}
+                  onPress={handlePress}
+                ></Button>
+              );
+            }
+            default: {
+              return (
+                <Button
+                  title="いいね！"
+                  style={{ marginBottom: 50 }}
+                  buttonStyle={{ backgroundColor: "blue" }}
+                  onPress={handlePress}
+                ></Button>
+              );
+            }
+          }
+        })()}
       </View>
     </View>
   );

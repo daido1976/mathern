@@ -17,7 +17,7 @@ export const Discover = props => {
         address: user.address
       },
       currentUserId,
-      profileType: "Others"
+      profileType: "others"
     });
   };
 

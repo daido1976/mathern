@@ -16,7 +16,7 @@ export const Liked = props => {
         address: user.address
       },
       currentUserId,
-      profileType: "Liked"
+      profileType: "liked"
     });
   };
 
