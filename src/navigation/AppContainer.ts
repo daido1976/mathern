@@ -6,7 +6,7 @@ import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import ProfileStack from "../screens/ProfileStack";
 import { Discover } from "../containers/Discover";
 import { Liked } from "../containers/Liked";
-import { MessageScreen } from "../screens/MessageScreen";
+import { Message } from "../containers/Message";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { EditNameScreen } from "../screens/EditNameScreen";
 import { ShowProfileScreen } from "../screens/ShowProfileScreen";
@@ -16,7 +16,7 @@ const TabNavigator = createBottomTabNavigator(
     Profile: ProfileStack,
     Discover,
     Liked,
-    Message: MessageScreen
+    Message
   },
   {
     initialRouteName: "Discover"
