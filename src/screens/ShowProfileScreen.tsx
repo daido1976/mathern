@@ -9,6 +9,7 @@ export const ShowProfileScreen = props => {
   const params = props.navigation.state.params;
   const user = params.user;
 
+  // FIXME: Container にリフトアップする
   const handlePress = async () => {
     console.log(params.currentUserId);
     console.log(user.id);
