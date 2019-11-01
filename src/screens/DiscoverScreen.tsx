@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Avatar } from "react-native-elements";
 
+// Discover と Liked から呼ばれてるので命名直す
 export const DiscoverScreen = ({ data, showProfile }) => {
   const { width } = Dimensions.get("window");
 
