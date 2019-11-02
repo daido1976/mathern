@@ -10,6 +10,7 @@ import { Message } from "../containers/Message";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { EditNameScreen } from "../screens/EditNameScreen";
 import { ProfileDetailScreen } from "../screens/ProfileDetailScreen";
+import { ChatScreen } from "../screens/ChatScreen";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -35,7 +36,8 @@ const HomeStack = createStackNavigator({
   },
   EditProfile: EditProfileScreen,
   EditName: EditNameScreen,
-  ProfileDetail: ProfileDetailScreen
+  ProfileDetail: ProfileDetailScreen,
+  Chat: ChatScreen
 });
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });

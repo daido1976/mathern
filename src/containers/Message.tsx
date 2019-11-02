@@ -7,6 +7,15 @@ export const Message = props => {
   const [users, setUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState();
 
+  const navigateChat = user => () => {
+    props.navigation.navigate("Chat", {
+      user: {
+        id: user.id
+      },
+      currentUserId
+    });
+  };
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
     getMatchUsers();
@@ -36,5 +45,7 @@ export const Message = props => {
     setUsers(users);
   };
 
-  return <MessageScreen users={users}></MessageScreen>;
+  return (
+    <MessageScreen users={users} navigateChat={navigateChat}></MessageScreen>
+  );
 };
