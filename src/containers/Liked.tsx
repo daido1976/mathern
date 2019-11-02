@@ -35,8 +35,8 @@ export const Liked = props => {
     }
   };
 
-  const showProfile = user => () => {
-    props.navigation.navigate("ShowProfile", {
+  const navigateProfileDetail = user => () => {
+    props.navigation.navigate("ProfileDetail", {
       user: {
         id: user.id,
         avatarUrl: user.avatarUrl,
@@ -94,6 +94,6 @@ export const Liked = props => {
   };
 
   return (
-    <DiscoverScreen users={users} showProfile={showProfile}></DiscoverScreen>
+    <DiscoverScreen users={users} navigateProfileDetail={navigateProfileDetail}></DiscoverScreen>
   )
 };

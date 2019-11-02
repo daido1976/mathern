@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, ScrollView, Dimensions } from "react-native";
 import { Avatar, ListItem, Card, Button } from "react-native-elements";
 
-export const ShowProfileScreen = props => {
+export const ProfileDetailScreen = props => {
   const { width } = Dimensions.get("window");
   const params = props.navigation.state.params;
   const user = params.user;
