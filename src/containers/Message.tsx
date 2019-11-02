@@ -23,16 +23,15 @@ export const Message = props => {
       .where("matches", "array-contains", currentUserId)
       .get();
 
-    const users = usersSnapshot.docs
-      .map(doc => {
-        return {
-          id: doc.id,
-          age: 20,
-          name: doc.data().name,
-          address: doc.data().address,
-          avatarUrl: doc.data().avatarUrl
-        };
-      })
+    const users = usersSnapshot.docs.map(doc => {
+      return {
+        id: doc.id,
+        age: 20,
+        name: doc.data().name,
+        address: doc.data().address,
+        avatarUrl: doc.data().avatarUrl
+      };
+    });
 
     setUsers(users);
   };

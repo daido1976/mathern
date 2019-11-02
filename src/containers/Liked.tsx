@@ -94,6 +94,9 @@ export const Liked = props => {
   };
 
   return (
-    <DiscoverScreen users={users} navigateProfileDetail={navigateProfileDetail}></DiscoverScreen>
-  )
+    <DiscoverScreen
+      users={users}
+      navigateProfileDetail={navigateProfileDetail}
+    ></DiscoverScreen>
+  );
 };

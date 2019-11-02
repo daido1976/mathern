@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { ListItem } from "react-native-elements";
 
-export const MessageScreen = ({users}) => {
+export const MessageScreen = ({ users }) => {
   return (
     <View>
       {users.map((user, i) => (

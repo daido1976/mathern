@@ -86,6 +86,9 @@ export const Discover = props => {
   };
 
   return (
-    <DiscoverScreen users={users} navigateProfileDetail={navigateProfileDetail}></DiscoverScreen>
+    <DiscoverScreen
+      users={users}
+      navigateProfileDetail={navigateProfileDetail}
+    ></DiscoverScreen>
   );
 };
