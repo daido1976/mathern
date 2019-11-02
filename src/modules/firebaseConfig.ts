@@ -1,17 +1,11 @@
-import {
-  FIREBASE_API_KEY,
-  FIREBASE_AUTH_DOMAIN,
-  FIREBASE_DATABASE_URL,
-  FIREBASE_STORAGE_BUCKET,
-  FIREBASE_PROJECT_ID
-} from "react-native-dotenv";
+import { FIREBASE_API_KEY, FIREBASE_PROJECT_ID } from "react-native-dotenv";
 
 // Initialize Firebase
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
-  authDomain: FIREBASE_AUTH_DOMAIN,
-  databaseURL: FIREBASE_DATABASE_URL,
-  storageBucket: FIREBASE_STORAGE_BUCKET,
+  authDomain: `${FIREBASE_PROJECT_ID}.firebaseapp.com`,
+  databaseURL: `https://${FIREBASE_PROJECT_ID}.firebaseio.com`,
+  storageBucket: `${FIREBASE_PROJECT_ID}.appspot.com`,
   projectId: FIREBASE_PROJECT_ID
 };
 
