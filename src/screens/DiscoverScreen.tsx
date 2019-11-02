@@ -9,7 +9,7 @@ import {
 import { Avatar } from "react-native-elements";
 
 // Discover と Liked から呼ばれてるので命名直す
-export const DiscoverScreen = ({ data, showProfile }) => {
+export const DiscoverScreen = ({ users, showProfile }) => {
   const { width } = Dimensions.get("window");
 
   return (
@@ -20,7 +20,7 @@ export const DiscoverScreen = ({ data, showProfile }) => {
           flexWrap: "wrap"
         }}
       >
-        {data.map((user, i) => (
+        {users.map((user, i) => (
           <TouchableOpacity key={i} onPress={showProfile(user)}>
             <View
               style={{
