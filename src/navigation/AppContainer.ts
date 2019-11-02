@@ -9,7 +9,7 @@ import { Liked } from "../containers/Liked";
 import { Message } from "../containers/Message";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { EditNameScreen } from "../screens/EditNameScreen";
-import { ShowProfileScreen } from "../screens/ShowProfileScreen";
+import { ProfileDetailScreen } from "../screens/ProfileDetailScreen";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -35,7 +35,7 @@ const HomeStack = createStackNavigator({
   },
   EditProfile: EditProfileScreen,
   EditName: EditNameScreen,
-  ShowProfile: ShowProfileScreen
+  ProfileDetail: ProfileDetailScreen
 });
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
