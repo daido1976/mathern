@@ -53,7 +53,7 @@ export const Chat = props => {
       return {
         _id: doc.id,
         text: doc.data().text,
-        createdAt: doc.data().createdAt,
+        createdAt: doc.data().createdAt.toDate(),
         user: {
           _id: doc.data().senderId
         }
