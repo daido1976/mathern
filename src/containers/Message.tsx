@@ -12,7 +12,8 @@ export const Message = props => {
       user: {
         id: user.id,
         avatarUrl: user.avatarUrl,
-        name: user.name
+        name: user.name,
+        isLikes: user.isLikes
       },
       currentUserId
     });
@@ -35,12 +36,15 @@ export const Message = props => {
       .get();
 
     const users = usersSnapshot.docs.map(doc => {
+      const isLikes = doc.data().likes.includes(currentUserId);
+
       return {
         id: doc.id,
         age: 20,
         name: doc.data().name,
         address: doc.data().address,
-        avatarUrl: doc.data().avatarUrl
+        avatarUrl: doc.data().avatarUrl,
+        isLikes: isLikes
       };
     });
 

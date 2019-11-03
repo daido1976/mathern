@@ -7,6 +7,10 @@ export const Chat = props => {
   const params = props.navigation.state.params;
   const user = params.user;
   const currentUserId = params.currentUserId;
+  const chatId = user.isLikes
+    ? currentUserId + user.id
+    : user.id + currentUserId;
+
   const [messages, setMessages] = useState([]);
 
   const onSend = newMessages => {
@@ -20,8 +24,7 @@ export const Chat = props => {
       await firebase
         .firestore()
         .collection("chats")
-        // これじゃダメ（相手になった時にも同じ値を指定できるように）
-        .doc(user.id + currentUserId)
+        .doc(chatId)
         .collection("messages")
         .doc(newMessage._id)
         .set({
@@ -40,8 +43,7 @@ export const Chat = props => {
     const messagesSnapshot = await firebase
       .firestore()
       .collection("chats")
-      // これじゃダメ（相手になった時にも同じ値を指定できるように）
-      .doc(user.id + currentUserId)
+      .doc(chatId)
       .collection("messages")
       .get();
 
