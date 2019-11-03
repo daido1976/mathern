@@ -10,7 +10,9 @@ export const Message = props => {
   const navigateChat = user => () => {
     props.navigation.navigate("Chat", {
       user: {
-        id: user.id
+        id: user.id,
+        avatarUrl: user.avatarUrl,
+        name: user.name
       },
       currentUserId
     });

@@ -5,26 +5,73 @@ import { ChatScreen } from "../screens/ChatScreen";
 
 export const Chat = props => {
   const params = props.navigation.state.params;
+  const user = params.user;
+  const currentUserId = params.currentUserId;
   const [messages, setMessages] = useState([]);
 
   const onSend = newMessages => {
+    console.log(newMessages);
     setMessages(prevMessages => [...newMessages, ...prevMessages]);
+    saveMessage(newMessages[0]);
+  };
+
+  const saveMessage = async newMessage => {
+    try {
+      await firebase
+        .firestore()
+        .collection("chats")
+        // これじゃダメ（相手になった時にも同じ値を指定できるように）
+        .doc(user.id + currentUserId)
+        .collection("messages")
+        .doc(newMessage._id)
+        .set({
+          createdAt: newMessage.createdAt,
+          text: newMessage.text,
+          senderId: newMessage.user._id
+        })
+        .catch(error => alert(error.message));
+      console.log("更新に成功しました！");
+    } catch (error) {
+      console.log(error.toString());
+    }
+  };
+
+  const getMessages = async () => {
+    const messagesSnapshot = await firebase
+      .firestore()
+      .collection("chats")
+      // これじゃダメ（相手になった時にも同じ値を指定できるように）
+      .doc(user.id + currentUserId)
+      .collection("messages")
+      .get();
+
+    if (!currentUserId) {
+      return null;
+    }
+
+    const prevMessages = messagesSnapshot.docs.map(doc => {
+      return {
+        _id: doc.id,
+        text: doc.data().text,
+        createdAt: doc.data().createdAt,
+        user: {
+          _id: doc.data().senderId
+        }
+      };
+    });
+
+    setMessages(prevMessages);
   };
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any"
-        }
-      }
-    ]);
+    getMessages();
   }, []);
 
-  return <ChatScreen messages={messages} onSend={onSend}></ChatScreen>;
+  return (
+    <ChatScreen
+      messages={messages}
+      onSend={onSend}
+      currenUserId={currentUserId}
+    ></ChatScreen>
+  );
 };
