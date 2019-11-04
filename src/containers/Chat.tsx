@@ -51,7 +51,7 @@ export const Chat = props => {
       return null;
     }
 
-    const prevMessages = messagesSnapshot.docs.map(doc => {
+    const pastMessages = messagesSnapshot.docs.map(doc => {
       return {
         _id: doc.id,
         text: doc.data().text,
@@ -62,7 +62,7 @@ export const Chat = props => {
       };
     });
 
-    setMessages(prevMessages);
+    setMessages(pastMessages);
   };
 
   useEffect(() => {
