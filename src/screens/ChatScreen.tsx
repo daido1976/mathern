@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 
 export const ChatScreen = ({ messages, onSend, currenUserId }) => {
