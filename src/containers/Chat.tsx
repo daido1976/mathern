@@ -49,6 +49,10 @@ export const Chat = props => {
       .collection("messages")
       .orderBy("createdAt", "desc")
       .onSnapshot(querySnapShot => {
+        if (querySnapShot.metadata.hasPendingWrites) {
+          return null;
+        }
+
         querySnapShot.docChanges().forEach(change => {
           if (change.type === "added") {
             console.log("New: ", change.doc.data());
