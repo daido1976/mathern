@@ -9,6 +9,7 @@ export const ChatScreen = ({ messages, onSend, currenUserId }) => {
       user={{
         _id: currenUserId
       }}
+      textInputProps={{ autoCapitalize: "none" }}
     />
   );
 };
