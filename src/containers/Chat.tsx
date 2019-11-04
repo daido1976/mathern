@@ -41,7 +41,7 @@ export const Chat = props => {
     }
   };
 
-  const listenNewMessages = () => {
+  const getMessages = () => {
     firebase
       .firestore()
       .collection("chats")
@@ -75,7 +75,7 @@ export const Chat = props => {
   };
 
   useEffect(() => {
-    listenNewMessages();
+    getMessages();
   }, []);
 
   return (
