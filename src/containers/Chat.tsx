@@ -49,6 +49,7 @@ export const Chat = props => {
       .collection("messages")
       .orderBy("createdAt", "desc")
       .onSnapshot(querySnapShot => {
+        // https://firebase.google.com/docs/firestore/query-data/listen#events-local-changes
         if (querySnapShot.metadata.hasPendingWrites) {
           return null;
         }
