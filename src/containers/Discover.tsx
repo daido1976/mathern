@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Button } from "react-native";
 import firebase from "firebase";
 import "firebase/firestore";
 import { DiscoverScreen } from "../screens/DiscoverScreen";
@@ -86,6 +85,9 @@ export const Discover = props => {
   };
 
   return (
-    <DiscoverScreen users={users} navigateProfileDetail={navigateProfileDetail}></DiscoverScreen>
+    <DiscoverScreen
+      users={users}
+      navigateProfileDetail={navigateProfileDetail}
+    ></DiscoverScreen>
   );
 };

@@ -7,6 +7,18 @@ export const Message = props => {
   const [users, setUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState();
 
+  const navigateChat = user => () => {
+    props.navigation.navigate("Chat", {
+      user: {
+        id: user.id,
+        avatarUrl: user.avatarUrl,
+        name: user.name,
+        isLikes: user.isLikes
+      },
+      currentUserId
+    });
+  };
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
     getMatchUsers();
@@ -23,19 +35,23 @@ export const Message = props => {
       .where("matches", "array-contains", currentUserId)
       .get();
 
-    const users = usersSnapshot.docs
-      .map(doc => {
-        return {
-          id: doc.id,
-          age: 20,
-          name: doc.data().name,
-          address: doc.data().address,
-          avatarUrl: doc.data().avatarUrl
-        };
-      })
+    const users = usersSnapshot.docs.map(doc => {
+      const isLikes = doc.data().likes.includes(currentUserId);
+
+      return {
+        id: doc.id,
+        age: 20,
+        name: doc.data().name,
+        address: doc.data().address,
+        avatarUrl: doc.data().avatarUrl,
+        isLikes: isLikes
+      };
+    });
 
     setUsers(users);
   };
 
-  return <MessageScreen users={users}></MessageScreen>;
+  return (
+    <MessageScreen users={users} navigateChat={navigateChat}></MessageScreen>
+  );
 };

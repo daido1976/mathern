@@ -7,6 +7,7 @@ import ProfileStack from "../screens/ProfileStack";
 import { Discover } from "../containers/Discover";
 import { Liked } from "../containers/Liked";
 import { Message } from "../containers/Message";
+import { Chat } from "../containers/Chat";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { EditNameScreen } from "../screens/EditNameScreen";
 import { ProfileDetailScreen } from "../screens/ProfileDetailScreen";
@@ -35,7 +36,8 @@ const HomeStack = createStackNavigator({
   },
   EditProfile: EditProfileScreen,
   EditName: EditNameScreen,
-  ProfileDetail: ProfileDetailScreen
+  ProfileDetail: ProfileDetailScreen,
+  Chat
 });
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
