@@ -50,10 +50,6 @@ export const Chat = props => {
       .orderBy("createdAt", "desc")
       .get();
 
-    if (!currentUserId) {
-      return null;
-    }
-
     const pastMessages = messagesSnapshot.docs.map(doc => {
       const avatar = doc.data().senderId === user.id ? user.avatarUrl : null;
 
