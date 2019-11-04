@@ -42,6 +42,30 @@ export const Chat = props => {
   };
 
   const getMessages = async () => {
+    firebase
+      .firestore()
+      .collection("chats")
+      .doc(chatId)
+      .collection("messages")
+      .orderBy("createdAt", "desc")
+      .onSnapshot(querySnapShot => {
+        querySnapShot.docChanges().forEach(change => {
+          if (change.type === "added") {
+            console.log("New: ", change.doc.data());
+            const addedMessage = {
+              _id: change.doc.id,
+              text: change.doc.data().text,
+              createdAt: change.doc.data().createdAt.toDate(),
+              user: {
+                _id: change.doc.data().senderId,
+                avatar: user.avatarUrl
+              }
+            };
+            setMessages(prevMessages => [addedMessage, ...prevMessages]);
+          }
+        });
+      });
+
     const messagesSnapshot = await firebase
       .firestore()
       .collection("chats")
