@@ -53,13 +53,13 @@ export const Chat = props => {
           return null;
         }
 
-        querySnapShot.docChanges().forEach(change => {
+        const addedMessages = querySnapShot.docChanges().map(change => {
           if (change.type === "added") {
             console.log("New: ", change.doc.data());
             const avatar =
               change.doc.data().senderId === user.id ? user.avatarUrl : null;
 
-            const addedMessage = {
+            return {
               _id: change.doc.id,
               text: change.doc.data().text,
               createdAt: change.doc.data().createdAt.toDate(),
@@ -68,9 +68,9 @@ export const Chat = props => {
                 avatar
               }
             };
-            setMessages(prevMessages => [addedMessage, ...prevMessages]);
           }
         });
+        setMessages(prevMessages => [...addedMessages, ...prevMessages]);
       });
   };
 
