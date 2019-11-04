@@ -45,6 +45,7 @@ export const Chat = props => {
       .collection("chats")
       .doc(chatId)
       .collection("messages")
+      .orderBy("createdAt", "desc")
       .get();
 
     if (!currentUserId) {
