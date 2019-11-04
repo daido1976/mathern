@@ -42,6 +42,32 @@ export const Chat = props => {
   };
 
   const getMessages = async () => {
+    const messagesSnapshot = await firebase
+      .firestore()
+      .collection("chats")
+      .doc(chatId)
+      .collection("messages")
+      .orderBy("createdAt", "desc")
+      .get();
+
+    const pastMessages = messagesSnapshot.docs.map(doc => {
+      const avatar = doc.data().senderId === user.id ? user.avatarUrl : null;
+
+      return {
+        _id: doc.id,
+        text: doc.data().text,
+        createdAt: doc.data().createdAt.toDate(),
+        user: {
+          _id: doc.data().senderId,
+          avatar
+        }
+      };
+    });
+
+    setMessages(pastMessages);
+  };
+
+  const listenNewMessages = () => {
     firebase
       .firestore()
       .collection("chats")
@@ -69,34 +95,11 @@ export const Chat = props => {
           }
         });
       });
-
-    const messagesSnapshot = await firebase
-      .firestore()
-      .collection("chats")
-      .doc(chatId)
-      .collection("messages")
-      .orderBy("createdAt", "desc")
-      .get();
-
-    const pastMessages = messagesSnapshot.docs.map(doc => {
-      const avatar = doc.data().senderId === user.id ? user.avatarUrl : null;
-
-      return {
-        _id: doc.id,
-        text: doc.data().text,
-        createdAt: doc.data().createdAt.toDate(),
-        user: {
-          _id: doc.data().senderId,
-          avatar
-        }
-      };
-    });
-
-    setMessages(pastMessages);
   };
 
   useEffect(() => {
     getMessages();
+    listenNewMessages();
   }, []);
 
   return (
