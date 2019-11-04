@@ -16,23 +16,25 @@ export const Chat = props => {
   const onSend = newMessages => {
     console.log(newMessages);
     setMessages(prevMessages => [...newMessages, ...prevMessages]);
-    saveMessage(newMessages[0]);
+    saveMessages(newMessages);
   };
 
-  const saveMessage = async newMessage => {
+  const saveMessages = newMessages => {
     try {
-      await firebase
-        .firestore()
-        .collection("chats")
-        .doc(chatId)
-        .collection("messages")
-        .doc(newMessage._id)
-        .set({
-          createdAt: newMessage.createdAt,
-          text: newMessage.text,
-          senderId: newMessage.user._id
-        })
-        .catch(error => alert(error.message));
+      newMessages.forEach(async newMessage => {
+        await firebase
+          .firestore()
+          .collection("chats")
+          .doc(chatId)
+          .collection("messages")
+          .doc(newMessage._id)
+          .set({
+            createdAt: newMessage.createdAt,
+            text: newMessage.text,
+            senderId: newMessage.user._id
+          })
+          .catch(error => alert(error.message));
+      });
       console.log("更新に成功しました！");
     } catch (error) {
       console.log(error.toString());
