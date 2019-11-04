@@ -53,12 +53,15 @@ export const Chat = props => {
     }
 
     const pastMessages = messagesSnapshot.docs.map(doc => {
+      const avatar = doc.data().senderId === user.id ? user.avatarUrl : null;
+
       return {
         _id: doc.id,
         text: doc.data().text,
         createdAt: doc.data().createdAt.toDate(),
         user: {
-          _id: doc.data().senderId
+          _id: doc.data().senderId,
+          avatar
         }
       };
     });
