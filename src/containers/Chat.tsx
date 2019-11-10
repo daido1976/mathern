@@ -12,6 +12,7 @@ export const Chat = props => {
     : user.id + currentUserId;
 
   const [messages, setMessages] = useState([]);
+  const [lastCreatedAt, setLastCreatedAt] = useState(null);
 
   const onSend = newMessages => {
     console.log(newMessages);
@@ -65,11 +66,67 @@ export const Chat = props => {
     });
 
     setMessages(pastMessages);
+
+    const lastMessage = pastMessages[0];
+    console.log("lastMessage:", lastMessage);
+    setLastCreatedAt(lastMessage.createdAt);
+  };
+
+  // I try to listen only new updates.
+  // https://stackoverflow.com/questions/53156109/how-to-skip-initial-data-and-trigger-only-new-updates-in-firestore-firebase
+  const realTimeUpdateMessage = () => {
+    if (!lastCreatedAt) {
+      return null;
+    }
+
+    console.log("lastCreated:", lastCreatedAt);
+
+    firebase
+      .firestore()
+      .collection("chats")
+      .doc(chatId)
+      .collection("messages")
+      .where(
+        "createdAt",
+        ">",
+        // https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp.html#fromdate
+        firebase.firestore.Timestamp.fromDate(lastCreatedAt)
+      )
+      .orderBy("createdAt", "desc")
+      .onSnapshot(querySnapShot => {
+        // https://firebase.google.com/docs/firestore/query-data/listen#events-local-changes
+        if (querySnapShot.metadata.hasPendingWrites) {
+          return null;
+        }
+
+        querySnapShot.docChanges().forEach(change => {
+          if (change.type === "added") {
+            console.log("New: ", change.doc.data());
+            const avatar =
+              change.doc.data().senderId === user.id ? user.avatarUrl : null;
+
+            const addedMessage = {
+              _id: change.doc.id,
+              text: change.doc.data().text,
+              createdAt: change.doc.data().createdAt.toDate(),
+              user: {
+                _id: change.doc.data().senderId,
+                avatar
+              }
+            };
+            setMessages(prevMessages => [addedMessage, ...prevMessages]);
+          }
+        });
+      });
   };
 
   useEffect(() => {
     getMessages();
   }, []);
+
+  useEffect(() => {
+    realTimeUpdateMessage();
+  }, [lastCreatedAt]);
 
   return (
     <ChatScreen
