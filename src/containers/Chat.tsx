@@ -41,7 +41,33 @@ export const Chat = props => {
     }
   };
 
-  const getMessages = () => {
+  const getMessages = async () => {
+    const messagesSnapshot = await firebase
+      .firestore()
+      .collection("chats")
+      .doc(chatId)
+      .collection("messages")
+      .orderBy("createdAt", "desc")
+      .get();
+
+    const pastMessages = messagesSnapshot.docs.map(doc => {
+      const avatar = doc.data().senderId === user.id ? user.avatarUrl : null;
+
+      return {
+        _id: doc.id,
+        text: doc.data().text,
+        createdAt: doc.data().createdAt.toDate(),
+        user: {
+          _id: doc.data().senderId,
+          avatar
+        }
+      };
+    });
+
+    setMessages(pastMessages);
+  };
+
+  const listenMessage = () => {
     firebase
       .firestore()
       .collection("chats")
@@ -54,13 +80,13 @@ export const Chat = props => {
           return null;
         }
 
-        const addedMessages = querySnapShot.docChanges().map(change => {
+        querySnapShot.docChanges().forEach(change => {
           if (change.type === "added") {
             console.log("New: ", change.doc.data());
             const avatar =
               change.doc.data().senderId === user.id ? user.avatarUrl : null;
 
-            return {
+            const addedMessage = {
               _id: change.doc.id,
               text: change.doc.data().text,
               createdAt: change.doc.data().createdAt.toDate(),
@@ -69,14 +95,15 @@ export const Chat = props => {
                 avatar
               }
             };
+            setMessages(prevMessages => [addedMessage, ...prevMessages]);
           }
         });
-        setMessages(prevMessages => [...addedMessages, ...prevMessages]);
       });
   };
 
   useEffect(() => {
     getMessages();
+    listenMessage();
   }, []);
 
   return (
