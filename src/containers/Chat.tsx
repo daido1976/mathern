@@ -12,6 +12,7 @@ export const Chat = props => {
     : user.id + currentUserId;
 
   const [messages, setMessages] = useState([]);
+  const [lastCreatedAt, setLastCreatedAt] = useState(null);
 
   const onSend = newMessages => {
     console.log(newMessages);
@@ -65,14 +66,30 @@ export const Chat = props => {
     });
 
     setMessages(pastMessages);
+
+    const lastMessage = pastMessages[0];
+    console.log("lastMessage:", lastMessage);
+    setLastCreatedAt(lastMessage.createdAt);
   };
 
   const listenMessage = () => {
+    if (!lastCreatedAt) {
+      return null;
+    }
+
+    console.log("lastCreated:", lastCreatedAt);
+
     firebase
       .firestore()
       .collection("chats")
       .doc(chatId)
       .collection("messages")
+      .where(
+        "createdAt",
+        ">",
+        // https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp.html#fromdate
+        firebase.firestore.Timestamp.fromDate(lastCreatedAt)
+      )
       .orderBy("createdAt", "desc")
       .onSnapshot(querySnapShot => {
         // https://firebase.google.com/docs/firestore/query-data/listen#events-local-changes
@@ -103,8 +120,11 @@ export const Chat = props => {
 
   useEffect(() => {
     getMessages();
-    listenMessage();
   }, []);
+
+  useEffect(() => {
+    listenMessage();
+  }, [lastCreatedAt]);
 
   return (
     <ChatScreen
