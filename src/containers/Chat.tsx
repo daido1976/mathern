@@ -72,7 +72,9 @@ export const Chat = props => {
     setLastCreatedAt(lastMessage.createdAt);
   };
 
-  const listenMessage = () => {
+  // I try to listen only new updates.
+  // https://stackoverflow.com/questions/53156109/how-to-skip-initial-data-and-trigger-only-new-updates-in-firestore-firebase
+  const realTimeUpdateMessage = () => {
     if (!lastCreatedAt) {
       return null;
     }
@@ -123,7 +125,7 @@ export const Chat = props => {
   }, []);
 
   useEffect(() => {
-    listenMessage();
+    realTimeUpdateMessage();
   }, [lastCreatedAt]);
 
   return (
