@@ -5,7 +5,7 @@ import { MessageScreen } from "../screens/MessageScreen";
 
 export const Message = props => {
   const [users, setUsers] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState();
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const navigateChat = user => () => {
     props.navigation.navigate("Chat", {

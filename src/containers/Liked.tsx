@@ -5,7 +5,7 @@ import { DiscoverScreen } from "../screens/DiscoverScreen";
 
 export const Liked = props => {
   const [users, setUsers] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState();
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const thanksPress = user => async () => {
     try {
