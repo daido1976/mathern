@@ -4,11 +4,11 @@
 
 Dating app made with following environments.
 
-- [ ] React Native
-- [ ] Expo
-- [ ] Firebase
-- [ ] TypeScript
-- [ ] Using React Hooks
+- [x] React Native
+- [x] Expo
+- [x] Firebase
+- [x] TypeScript
+- [x] Using React Hooks
 - [ ] Storybook
 
 ## Development
