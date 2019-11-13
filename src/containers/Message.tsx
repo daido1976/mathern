@@ -20,8 +20,13 @@ export const Message = props => {
   };
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
+    const unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => setCurrentUserId(user.uid));
+
     getMatchUsers();
+
+    return () => unsubscribe();
   }, [currentUserId]);
 
   const getMatchUsers = async () => {

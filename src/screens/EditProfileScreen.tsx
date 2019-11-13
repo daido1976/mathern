@@ -42,12 +42,16 @@ export const EditProfileScreen = props => {
 
   // TODO: useCurrentUser 的な感じで抽象化したい、返り値は CurrentUser のオブジェクトのイメージ
   useEffect(() => {
+    const unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => setUserID(user.uid));
+
     getCurrentUser();
+
+    return () => unsubscribe();
   }, [userId]);
 
   const getCurrentUser = async () => {
-    firebase.auth().onAuthStateChanged(user => setUserID(user.uid));
-
     if (!userId) {
       return null;
     }

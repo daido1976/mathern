@@ -50,8 +50,11 @@ export const Liked = props => {
   };
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
+    const unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => setCurrentUserId(user.uid));
     getLikedUsers();
+    return () => unsubscribe();
   }, [currentUserId]);
 
   const getLikedUsers = async () => {

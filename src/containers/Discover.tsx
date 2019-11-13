@@ -50,8 +50,13 @@ export const Discover = props => {
   };
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
+    const unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => setCurrentUserId(user.uid));
+
     getDiscoverUsers();
+
+    return () => unsubscribe();
   }, [currentUserId]);
 
   const getDiscoverUsers = async () => {
