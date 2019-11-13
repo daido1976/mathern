@@ -1,6 +1,15 @@
 # mathern
 
-Dating app made with expo & react native.
+⚠️ Only supports iOS now.
+
+Dating app made with following environments.
+
+- [ ] React Native
+- [ ] Expo
+- [ ] Firebase
+- [ ] TypeScript
+- [ ] Using React Hooks
+- [ ] Storybook
 
 ## Development
 
