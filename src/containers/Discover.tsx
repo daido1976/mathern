@@ -5,7 +5,7 @@ import { DiscoverScreen } from "../screens/DiscoverScreen";
 
 export const Discover = props => {
   const [users, setUsers] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState();
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const likesPress = user => async () => {
     try {
@@ -50,8 +50,13 @@ export const Discover = props => {
   };
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
+    const unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => setCurrentUserId(user.uid));
+
     getDiscoverUsers();
+
+    return () => unsubscribe();
   }, [currentUserId]);
 
   const getDiscoverUsers = async () => {

@@ -5,7 +5,7 @@ import { DiscoverScreen } from "../screens/DiscoverScreen";
 
 export const Liked = props => {
   const [users, setUsers] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState();
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const thanksPress = user => async () => {
     try {
@@ -50,23 +50,27 @@ export const Liked = props => {
   };
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
+    const unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => setCurrentUserId(user.uid));
     getLikedUsers();
+    return () => unsubscribe();
   }, [currentUserId]);
 
   const getLikedUsers = async () => {
-    // TODO: 実装する
-    firebase
-      .firestore()
-      .collection("users")
-      .onSnapshot(querySnapShot => {
-        // Snapshot が更新されたらここのコールバックに入ってくる
-        console.log("onsnapshot!!!", querySnapShot);
-      });
-
     if (!currentUserId) {
       return null;
     }
+
+    // TODO: 実装する
+    // これも clean up 時に unsubscribe しないといけないので一旦コメントアウトしている
+    // firebase
+    //   .firestore()
+    //   .collection("users")
+    //   .onSnapshot(querySnapShot => {
+    //     // Snapshot が更新されたらここのコールバックに入ってくる
+    //     console.log("onsnapshot!!!", querySnapShot);
+    //   });
 
     const usersSnapshot = await firebase
       .firestore()

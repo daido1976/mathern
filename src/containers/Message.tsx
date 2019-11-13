@@ -5,7 +5,7 @@ import { MessageScreen } from "../screens/MessageScreen";
 
 export const Message = props => {
   const [users, setUsers] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState();
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const navigateChat = user => () => {
     props.navigation.navigate("Chat", {
@@ -20,8 +20,13 @@ export const Message = props => {
   };
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => setCurrentUserId(user.uid));
+    const unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => setCurrentUserId(user.uid));
+
     getMatchUsers();
+
+    return () => unsubscribe();
   }, [currentUserId]);
 
   const getMatchUsers = async () => {
