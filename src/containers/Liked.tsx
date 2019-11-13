@@ -58,18 +58,19 @@ export const Liked = props => {
   }, [currentUserId]);
 
   const getLikedUsers = async () => {
-    // TODO: 実装する
-    firebase
-      .firestore()
-      .collection("users")
-      .onSnapshot(querySnapShot => {
-        // Snapshot が更新されたらここのコールバックに入ってくる
-        console.log("onsnapshot!!!", querySnapShot);
-      });
-
     if (!currentUserId) {
       return null;
     }
+
+    // TODO: 実装する
+    // これも clean up 時に unsubscribe しないといけないので一旦コメントアウトしている
+    // firebase
+    //   .firestore()
+    //   .collection("users")
+    //   .onSnapshot(querySnapShot => {
+    //     // Snapshot が更新されたらここのコールバックに入ってくる
+    //     console.log("onsnapshot!!!", querySnapShot);
+    //   });
 
     const usersSnapshot = await firebase
       .firestore()
