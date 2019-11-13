@@ -81,7 +81,7 @@ export const Chat = props => {
 
     console.log("lastCreated:", lastCreatedAt);
 
-    firebase
+    return firebase
       .firestore()
       .collection("chats")
       .doc(chatId)
@@ -125,7 +125,11 @@ export const Chat = props => {
   }, []);
 
   useEffect(() => {
-    realTimeUpdateMessage();
+    const unsubscribe = realTimeUpdateMessage();
+    return () => {
+      // onSnapshot は null のままの時もあるのでこうしている
+      if (unsubscribe != null) unsubscribe();
+    };
   }, [lastCreatedAt]);
 
   return (
