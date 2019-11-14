@@ -34,6 +34,7 @@ export const Message = props => {
       return null;
     }
 
+    // TODO: 最後にメッセージした時間でソートする
     const usersSnapshot = await firebase
       .firestore()
       .collection("users")
