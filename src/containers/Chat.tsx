@@ -68,8 +68,11 @@ export const Chat = props => {
     setMessages(pastMessages);
 
     const lastMessage = pastMessages[0];
+    const lastMessageCreatedAt = lastMessage
+      ? lastMessage.createdAt
+      : new Date();
     console.log("lastMessage:", lastMessage);
-    setLastCreatedAt(lastMessage.createdAt);
+    setLastCreatedAt(lastMessageCreatedAt);
   };
 
   // I try to listen only new updates.
