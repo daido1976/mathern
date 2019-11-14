@@ -82,6 +82,7 @@ export const Liked = props => {
       console.log(doc.id, " => ", doc.data());
     });
 
+    // TODO: マッチ済みのユーザは表示しないようにする
     const users = usersSnapshot.docs
       .map(doc => {
         return {
