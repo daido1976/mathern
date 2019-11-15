@@ -82,7 +82,6 @@ export const Liked = props => {
       console.log(doc.id, " => ", doc.data());
     });
 
-    // TODO: マッチ済みのユーザは表示しないようにする
     const users = usersSnapshot.docs
       .map(doc => {
         return {
@@ -90,10 +89,15 @@ export const Liked = props => {
           age: 20,
           name: doc.data().name,
           address: doc.data().address,
-          avatarUrl: doc.data().avatarUrl
+          avatarUrl: doc.data().avatarUrl,
+          matches: doc.data().matches
         };
       })
-      .filter(user => user.id !== currentUserId);
+      // 自分とマッチ済みのユーザは表示しないようにする
+      .filter(
+        user =>
+          !(user.id === currentUserId || user.matches.includes(currentUserId))
+      );
 
     setUsers(users);
   };

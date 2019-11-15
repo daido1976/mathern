@@ -73,7 +73,6 @@ export const Discover = props => {
       return null;
     }
 
-    // TODO: likes 済みのユーザは表示しないようにする
     const users = usersSnapshot.docs
       .map(doc => {
         return {
@@ -81,10 +80,20 @@ export const Discover = props => {
           age: 20,
           name: doc.data().name,
           address: doc.data().address,
-          avatarUrl: doc.data().avatarUrl
+          avatarUrl: doc.data().avatarUrl,
+          likes: doc.data().likes,
+          liked: doc.data().liked
         };
       })
-      .filter(user => user.id !== currentUserId);
+      // 自分と likes, liked 済みのユーザは表示しないようにする
+      .filter(
+        user =>
+          !(
+            user.id === currentUserId ||
+            (user.likes && user.likes.includes(currentUserId)) ||
+            (user.liked && user.liked.includes(currentUserId))
+          )
+      );
 
     setUsers(users);
   };
