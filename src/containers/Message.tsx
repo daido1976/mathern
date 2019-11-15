@@ -42,7 +42,8 @@ export const Message = props => {
       .get();
 
     const users = usersSnapshot.docs.map(doc => {
-      const isLikes = doc.data().likes.includes(currentUserId);
+      const isLikes =
+        doc.data().likes && doc.data().likes.includes(currentUserId);
 
       return {
         id: doc.id,
