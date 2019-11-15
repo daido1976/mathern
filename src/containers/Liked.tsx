@@ -96,7 +96,10 @@ export const Liked = props => {
       // 自分とマッチ済みのユーザは表示しないようにする
       .filter(
         user =>
-          !(user.id === currentUserId || user.matches.includes(currentUserId))
+          !(
+            user.id === currentUserId ||
+            (user.matches && user.matches.includes(currentUserId))
+          )
       );
 
     setUsers(users);
